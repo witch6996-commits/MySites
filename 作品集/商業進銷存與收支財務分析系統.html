@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進銷存與收支財務視覺化分析系統</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ECharts 5.5.0 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <!-- SheetJS 0.18.5 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e'
+            },
+            slate: {
+              850: '#152033',
+              900: '#0f172a',
+              950: '#080d1a'
+            },
+            teal: {
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar for dark theme */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .chart-box {
+      min-height: 320px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col selection:bg-teal-500 selection:text-white">
+
+  <!-- 頂部導航列 -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-gradient-to-tr from-teal-500 to-sky-500 rounded-lg shadow-lg shadow-teal-500/20">
+          <i data-lucide="line-chart" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            商業進銷存與收支財務分析系統
+            <span class="text-xs px-2 py-0.5 rounded-full bg-teal-950 text-teal-400 border border-teal-800/60">Local Only</span>
+          </h1>
+          <p class="text-xs text-slate-400">100% 瀏覽器本機端記憶體運算・無雲端傳輸</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="btnLoadSample" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 hover:text-white text-xs font-medium rounded-lg border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="sparkles" class="w-4 h-4 text-teal-400"></i>
+          載入示範資料
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
+
+    <!-- 模組 1: 上傳與狀態列 -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <!-- 拖曳上傳 Dropzone -->
+      <div id="dropzone" class="lg:col-span-2 border-2 border-dashed border-slate-700 hover:border-teal-500/80 bg-slate-900/50 hover:bg-slate-900/80 rounded-xl p-5 transition flex flex-col items-center justify-center text-center cursor-pointer relative group">
+        <input type="file" id="fileInput" accept=".xlsx, .xls" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+        <div class="w-12 h-12 mb-2 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition border border-slate-700 text-teal-400">
+          <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+        </div>
+        <p class="text-sm font-medium text-slate-200">
+          拖曳 Excel 檔案至此，或 <span class="text-teal-400 underline underline-offset-4">點擊瀏覽檔案</span>
+        </p>
+        <p class="text-xs text-slate-400 mt-1">支援 .xlsx / .xls，內建多工作表自動欄位辨識</p>
+      </div>
+
+      <!-- 解析狀態卡片 -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+            <span class="flex items-center gap-1.5">
+              <span id="statusIndicator" class="w-2 h-2 rounded-full bg-amber-400"></span>
+              資料集狀態
+            </span>
+            <span id="dataTimeRange" class="font-mono text-slate-300">尚未載入</span>
+          </div>
+          <h3 id="datasetTitle" class="text-base font-semibold text-slate-100 mb-3 truncate">等待資料載入中...</h3>
+        </div>
+        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
+          <div class="bg-slate-950/60 p-2 rounded border border-slate-800/50">
+            <p class="text-[10px] text-slate-400">商品數</p>
+            <p id="statProducts" class="text-sm font-bold font-mono text-teal-300">0</p>
+          </div>
+          <div class="bg-slate-950/60 p-2 rounded border border-slate-800/50">
+            <p class="text-[10px] text-slate-400">進貨筆數</p>
+            <p id="statPurchases" class="text-sm font-bold font-mono text-sky-300">0</p>
+          </div>
+          <div class="bg-slate-950/60 p-2 rounded border border-slate-800/50">
+            <p class="text-[10px] text-slate-400">銷貨筆數</p>
+            <p id="statSales" class="text-sm font-bold font-mono text-emerald-300">0</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 模組 2: 核心 KPI 指標卡 -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <!-- 總營收 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs font-medium">總營業收入</span>
+          <i data-lucide="dollar-sign" class="w-4 h-4 text-teal-400"></i>
+        </div>
+        <div>
+          <div id="kpiRevenue" class="text-xl font-bold font-mono text-white">NT$ 0</div>
+          <p id="kpiRevenueSub" class="text-[11px] text-slate-400 mt-1">成本：NT$ 0</p>
+        </div>
+      </div>
+
+      <!-- 總毛利與毛利率 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs font-medium">總銷貨毛利</span>
+          <i data-lucide="trending-up" class="w-4 h-4 text-sky-400"></i>
+        </div>
+        <div>
+          <div id="kpiGrossProfit" class="text-xl font-bold font-mono text-sky-400">NT$ 0</div>
+          <p id="kpiMargin" class="text-[11px] text-slate-300 mt-1">毛利率：<span class="font-mono font-semibold text-sky-300">0.0%</span></p>
+        </div>
+      </div>
+
+      <!-- 期末庫存總值 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs font-medium">期末庫存總額</span>
+          <i data-lucide="boxes" class="w-4 h-4 text-indigo-400"></i>
+        </div>
+        <div>
+          <div id="kpiInventoryVal" class="text-xl font-bold font-mono text-indigo-300">NT$ 0</div>
+          <p id="kpiInventoryItems" class="text-[11px] text-slate-400 mt-1">在庫品項：0 筆</p>
+        </div>
+      </div>
+
+      <!-- 營業淨利 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs font-medium">營業淨利</span>
+          <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+        <div>
+          <div id="kpiNetProfit" class="text-xl font-bold font-mono text-emerald-400">NT$ 0</div>
+          <p id="kpiNetMargin" class="text-[11px] text-slate-300 mt-1">淨利率：<span class="font-mono font-semibold text-emerald-300">0.0%</span></p>
+        </div>
+      </div>
+
+      <!-- 庫存健康預警 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs font-medium">庫存水位預警</span>
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span id="kpiAlertCount" class="text-xl font-bold font-mono text-amber-400">0</span>
+            <span class="text-xs text-slate-400">個品項偏低</span>
+          </div>
+          <div class="mt-1 flex gap-1.5">
+            <span id="kpiCriticalBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-red-950/80 text-red-400 border border-red-800/60 font-mono">0 緊急</span>
+            <span id="kpiWarnBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-400 border border-amber-800/60 font-mono">0 警示</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 模組 3: 視覺化圖表儀表板 (ECharts) -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <!-- 圖表 A: 月度營收 vs 支出與淨盈餘趨勢 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
+        <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-800">
+          <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+            月度收支與淨盈餘走勢 (Trend Analysis)
+          </h3>
+          <span class="text-xs text-slate-400">柱狀：營收/支出 ｜ 折線：淨利</span>
+        </div>
+        <div id="chartTrend" class="chart-box w-full flex-1"></div>
+      </div>
+
+      <!-- 圖表 B: 通路營收佔比與毛利貢獻 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
+        <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-800">
+          <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            各通路營收佔比 (Channel Distribution)
+          </h3>
+          <span class="text-xs text-slate-400">銷售佔比與毛利貢獻</span>
+        </div>
+        <div id="chartChannels" class="chart-box w-full flex-1"></div>
+      </div>
+
+      <!-- 圖表 C: 商品銷售排行榜 Top 5 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
+        <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-800">
+          <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            主力商品銷售與毛利排行 Top 5
+          </h3>
+          <span class="text-xs text-slate-400">按銷售額排序</span>
+        </div>
+        <div id="chartTopProducts" class="chart-box w-full flex-1"></div>
+      </div>
+
+      <!-- 圖表 D: 庫存健康度與安全水位 -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
+        <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-800">
+          <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+            主力品項庫存水位 vs 安全庫存標準
+          </h3>
+          <span class="text-xs text-slate-400">庫存預警診斷</span>
+        </div>
+        <div id="chartInventoryHealth" class="chart-box w-full flex-1"></div>
+      </div>
+    </section>
+
+    <!-- 模組 4: 進銷存庫存分析明細表 (Grid) -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-xl p-5 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div>
+          <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+            <i data-lucide="package-search" class="w-5 h-5 text-teal-400"></i>
+            進銷存庫存健康度管理表
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">即時關聯期初、進貨、銷貨與庫存警示狀態</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
+            <input type="text" id="inventorySearch" placeholder="搜尋商品名稱或編號..." class="bg-slate-950 text-xs text-slate-200 pl-9 pr-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-teal-500 w-48 sm:w-56">
+          </div>
+          <select id="categoryFilter" class="bg-slate-950 text-xs text-slate-200 px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-teal-500">
+            <option value="ALL">所有品類</option>
+          </select>
+          <select id="statusFilter" class="bg-slate-950 text-xs text-slate-200 px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-teal-500">
+            <option value="ALL">全部庫存狀態</option>
+            <option value="CRITICAL">🔴 緊急補貨 (&lt;80%安全水位)</option>
+            <option value="WARNING">🟡 庫存偏低 (≤安全庫存)</option>
+            <option value="HEALTHY">🟢 庫存正常</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 表格主體 -->
+      <div class="overflow-x-auto mt-4 rounded-lg border border-slate-800">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-950 text-slate-400 font-semibold uppercase tracking-wider select-none">
+            <tr>
+              <th class="py-3 px-3">編號</th>
+              <th class="py-3 px-3">品類</th>
+              <th class="py-3 px-4">商品名稱</th>
+              <th class="py-3 px-3 text-right">單位成本</th>
+              <th class="py-3 px-2 text-right">期初</th>
+              <th class="py-3 px-2 text-right">進貨(+)</th>
+              <th class="py-3 px-2 text-right">銷貨(-)</th>
+              <th class="py-3 px-3 text-right">期末庫存</th>
+              <th class="py-3 px-3 text-right">庫存總值</th>
+              <th class="py-3 px-3 text-center">安全庫存</th>
+              <th class="py-3 px-3 text-center">健康狀態</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryTableBody" class="divide-y divide-slate-800 text-slate-300 font-mono">
+            <tr>
+              <td colspan="11" class="text-center py-8 text-slate-500 font-sans">請載入資料以檢視庫存匯總</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 模組 5: 損益收支表 (P&L Viewer) -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-xl p-5 shadow-sm">
+      <div class="pb-3 border-b border-slate-800 mb-4 flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+            <i data-lucide="file-spreadsheet" class="w-5 h-5 text-sky-400"></i>
+            收支損益結構診斷表 (Profit & Loss Statement)
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">營業收入、銷貨成本與各項營運費用佔比診斷</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- 損益條目明細 -->
+        <div class="lg:col-span-8 space-y-3 font-sans">
+          <!-- 營業收入 -->
+          <div class="p-3.5 bg-slate-950/70 rounded-lg border border-slate-800/80 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
+              <span class="font-semibold text-sm text-slate-100">營業收入 (Revenue)</span>
+            </div>
+            <div class="text-right">
+              <span id="plRevenue" class="font-mono font-bold text-sm text-white">NT$ 0</span>
+              <span class="text-[11px] text-slate-400 ml-2 font-mono">100.0%</span>
+            </div>
+          </div>
+
+          <!-- 銷貨成本 -->
+          <div class="p-3.5 bg-slate-950/40 rounded-lg border border-slate-800/40 flex items-center justify-between text-slate-300 pl-7">
+            <span>(-) 銷貨成本 (COGS)</span>
+            <div class="text-right">
+              <span id="plCogs" class="font-mono text-sm text-rose-300">NT$ 0</span>
+              <span id="plCogsPct" class="text-[11px] text-slate-400 ml-2 font-mono">0.0%</span>
+            </div>
+          </div>
+
+          <!-- 營業毛利 -->
+          <div class="p-3.5 bg-slate-950/80 rounded-lg border border-teal-900/40 flex items-center justify-between text-teal-300 font-medium">
+            <div class="flex items-center gap-2">
+              <i data-lucide="corner-down-right" class="w-4 h-4 text-teal-400"></i>
+              <span>(=) 營業毛利 (Gross Profit)</span>
+            </div>
+            <div class="text-right">
+              <span id="plGross" class="font-mono font-bold text-sm text-teal-300">NT$ 0</span>
+              <span id="plGrossPct" class="text-[11px] text-teal-400 ml-2 font-mono">0.0%</span>
+            </div>
+          </div>
+
+          <!-- 營業費用 -->
+          <div class="p-3.5 bg-slate-950/40 rounded-lg border border-slate-800/40 space-y-2">
+            <div class="flex items-center justify-between text-slate-300 pl-3">
+              <span class="font-medium text-xs text-slate-300">(-) 營業費用細項 (Operating Expenses)</span>
+              <div class="text-right">
+                <span id="plOpexTotal" class="font-mono font-semibold text-xs text-amber-300">NT$ 0</span>
+                <span id="plOpexTotalPct" class="text-[11px] text-slate-400 ml-2 font-mono">0.0%</span>
+              </div>
+            </div>
+            <!-- 費用細項分佈條 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800/60 pl-3 text-xs text-slate-400 font-mono">
+              <div class="flex justify-between bg-slate-900/80 p-2 rounded border border-slate-800/50">
+                <span>人事與薪資支出</span>
+                <span id="plExpPayroll" class="text-slate-200">NT$ 0</span>
+              </div>
+              <div class="flex justify-between bg-slate-900/80 p-2 rounded border border-slate-800/50">
+                <span>廣告與市場行銷</span>
+                <span id="plExpMarketing" class="text-slate-200">NT$ 0</span>
+              </div>
+              <div class="flex justify-between bg-slate-900/80 p-2 rounded border border-slate-800/50">
+                <span>門市/辦公室租金與倉儲</span>
+                <span id="plExpRent" class="text-slate-200">NT$ 0</span>
+              </div>
+              <div class="flex justify-between bg-slate-900/80 p-2 rounded border border-slate-800/50">
+                <span>雲端伺服器與雜項</span>
+                <span id="plExpCloud" class="text-slate-200">NT$ 0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 營業淨利 -->
+          <div class="p-3.5 bg-gradient-to-r from-slate-950 to-slate-900 rounded-lg border border-emerald-500/30 flex items-center justify-between text-emerald-300 font-bold">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+              <span>(=) 營業利益 / 淨利 (Operating Profit)</span>
+            </div>
+            <div class="text-right">
+              <span id="plOperatingProfit" class="font-mono text-base text-emerald-400">NT$ 0</span>
+              <span id="plNetMarginPct" class="text-xs text-emerald-400 ml-2 font-mono">0.0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 費用結構比例長條圖進度條 -->
+        <div class="lg:col-span-4 bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+          <div>
+            <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">營收佔比結構診斷</h4>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">銷貨成本率 (COGS %)</span>
+                  <span id="barCogsLabel" class="font-mono text-slate-200">0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div id="barCogs" class="bg-rose-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">營業費用率 (OPEX %)</span>
+                  <span id="barOpexLabel" class="font-mono text-slate-200">0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div id="barOpex" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">營業淨利率 (Net Margin %)</span>
+                  <span id="barNetLabel" class="font-mono text-slate-200">0%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div id="barNet" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-900/90 rounded border border-slate-800 mt-4 text-[11px] text-slate-400">
+            <p class="font-semibold text-slate-300 mb-1 flex items-center gap-1">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-teal-400"></i> 財務健康速評
+            </p>
+            <p id="healthCommentary">載入資料後將自動產生毛利與營業費用的健康度診斷觀點。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部版權宣告 -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-4 text-center text-xs text-slate-600">
+    <p>企業級本機進銷存與收支財務分析系統・雙擊即用・零資料外洩風險</p>
+  </footer>
+
+  <!-- 應用程式邏輯主程式 -->
+  <script>
+    // --- 1. 全域變數與格式化工具 ---
+    let appData = {
+      products: [],
+      purchases: [],
+      sales: [],
+      inventory: [],
+      finance: {}
+    };
+
+    let charts = {
+      trend: null,
+      channels: null,
+      topProducts: null,
+      inventoryHealth: null
+    };
+
+    const formatCurrency = (val) => {
+      if (isNaN(val) || val === null || val === undefined) val = 0;
+      return 'NT$ ' + Math.round(val).toLocaleString('en-US');
+    };
+
+    const formatPercent = (val) => {
+      if (isNaN(val) || val === null || val === undefined) return '0.0%';
+      return (val * 100).toFixed(1) + '%';
+    };
+
+    const parseNum = (val) => {
+      if (typeof val === 'number') return val;
+      if (!val) return 0;
+      const clean = String(val).replace(/[$,\s%]/g, '');
+      const num = parseFloat(clean);
+      return isNaN(num) ? 0 : num;
+    };
+
+    // --- 2. 範例資料集 (鼎峰智創科技) ---
+    const SAMPLE_DATASET = {
+      products: [
+        { id: "A101", category: "智慧硬體", name: "AI 邊緣運算模組 Pro", unit: "組", cost: 3200, price: 5800, safetyStock: 30, status: "熱銷中" },
+        { id: "A102", category: "智慧硬體", name: "工業級物聯網感測網關", unit: "台", cost: 1800, price: 3400, safetyStock: 25, status: "正常" },
+        { id: "B201", category: "周邊配件", name: "高傳輸 Type-C 擴充基座", unit: "個", cost: 450, price: 990, safetyStock: 50, status: "正常" },
+        { id: "B202", category: "周邊配件", name: "氮化鎵 65W 疾速快充頭", unit: "個", cost: 280, price: 650, safetyStock: 60, status: "補貨中" },
+        { id: "C301", category: "企業軟體", name: "雲端數據看板年度授權", unit: "套", cost: 2000, price: 12000, safetyStock: 10, status: "熱銷中" },
+        { id: "C302", category: "企業軟體", name: "資安端點防護套裝 (10U)", unit: "套", cost: 4000, price: 15000, safetyStock: 10, status: "正常" }
+      ],
+      purchases: [
+        { po: "PO-202601-01", date: "2026-01-05", supplier: "晶創晶圓科技", id: "A101", name: "AI 邊緣運算模組 Pro", qty: 50, unitCost: 3200, total: 160000 },
+        { po: "PO-202601-02", date: "2026-01-08", supplier: "立訊電子部件", id: "B201", name: "高傳輸 Type-C 擴充基座", qty: 100, unitCost: 450, total: 45000 },
+        { po: "PO-202602-01", date: "2026-02-10", supplier: "晶創晶圓科技", id: "A102", name: "工業級物聯網感測網關", qty: 40, unitCost: 1800, total: 72000 },
+        { po: "PO-202602-02", date: "2026-02-15", supplier: "極速電源科技", id: "B202", name: "氮化鎵 65W 疾速快充頭", qty: 120, unitCost: 280, total: 33600 },
+        { po: "PO-202603-01", date: "2026-03-05", supplier: "晶創晶圓科技", id: "A101", name: "AI 邊緣運算模組 Pro", qty: 40, unitCost: 3200, total: 128000 },
+        { po: "PO-202603-02", date: "2026-03-12", supplier: "立訊電子部件", id: "B201", name: "高傳輸 Type-C 擴充基座", qty: 80, unitCost: 450, total: 36000 }
+      ],
+      sales: [
+        { so: "SO-202601-01", date: "2026-01-12", channel: "B2B企業", channelType: "B2B企業專案", id: "A101", name: "AI 邊緣運算模組 Pro", qty: 25, unitPrice: 5800, revenue: 145000, unitCost: 3200, cogs: 80000, profit: 65000, margin: 0.448 },
+        { so: "SO-202601-02", date: "2026-01-18", channel: "官方旗艦店", channelType: "B2C線上電商", id: "B201", name: "高傳輸 Type-C 擴充基座", qty: 45, unitPrice: 990, revenue: 44550, unitCost: 450, cogs: 20250, profit: 24300, margin: 0.545 },
+        { so: "SO-202601-03", date: "2026-01-25", channel: "B2B企業", channelType: "B2B企業專案", id: "C301", name: "雲端數據看板年度授權", qty: 3, unitPrice: 12000, revenue: 36000, unitCost: 2000, cogs: 6000, profit: 30000, margin: 0.833 },
+        { so: "SO-202602-01", date: "2026-02-05", channel: "實體直營門市", channelType: "實體直營門市", id: "B202", name: "氮化鎵 65W 疾速快充頭", qty: 70, unitPrice: 650, revenue: 45500, unitCost: 280, cogs: 19600, profit: 25900, margin: 0.569 },
+        { so: "SO-202602-02", date: "2026-02-14", channel: "B2B企業", channelType: "B2B企業專案", id: "A102", name: "工業級物聯網感測網關", qty: 22, unitPrice: 3400, revenue: 74800, unitCost: 1800, cogs: 39600, profit: 35200, margin: 0.471 },
+        { so: "SO-202602-03", date: "2026-02-20", channel: "官方旗艦店", channelType: "B2C線上電商", id: "A101", name: "AI 邊緣運算模組 Pro", qty: 35, unitPrice: 5800, revenue: 203000, unitCost: 3200, cogs: 112000, profit: 91000, margin: 0.448 },
+        { so: "SO-202603-01", date: "2026-03-08", channel: "實體直營門市", channelType: "實體直營門市", id: "B201", name: "高傳輸 Type-C 擴充基座", qty: 60, unitPrice: 990, revenue: 59400, unitCost: 450, cogs: 27000, profit: 32400, margin: 0.545 },
+        { so: "SO-202603-02", date: "2026-03-15", channel: "B2B企業", channelType: "B2B企業專案", id: "C302", name: "資安端點防護套裝 (10U)", qty: 5, unitPrice: 15000, revenue: 75000, unitCost: 4000, cogs: 20000, profit: 55000, margin: 0.733 },
+        { so: "SO-202603-03", date: "2026-03-22", channel: "官方旗艦店", channelType: "B2C線上電商", id: "B202", name: "氮化鎵 65W 疾速快充頭", qty: 45, unitPrice: 650, revenue: 29250, unitCost: 280, cogs: 12600, profit: 16650, margin: 0.569 }
+      ],
+      finance: {
+        expenses: {
+          payroll: 120000,    // 人事薪資
+          marketing: 45000,   // 行銷廣告
+          rent: 35000,        // 租金與倉儲
+          cloud: 18000        // 雲端與雜項
+        }
+      }
+    };
+
+    // --- 3. 欄位容錯比對輔助器 ---
+    function findColumnValue(row, possibleKeys) {
+      const keys = Object.keys(row);
+      for (const p of possibleKeys) {
+        const found = keys.find(k => k.trim().toLowerCase() === p.toLowerCase());
+        if (found !== undefined && row[found] !== undefined) return row[found];
+      }
+      return null;
+    }
+
+    // --- 4. 解析 Excel 檔案 (SheetJS) ---
+    function processExcelWorkbook(wb) {
+      const sheetNames = wb.SheetNames;
+      let rawProducts = [];
+      let rawPurchases = [];
+      let rawSales = [];
+      let rawInventory = [];
+      let rawFinance = [];
+
+      sheetNames.forEach(sheetName => {
+        const lower = sheetName.trim().toLowerCase();
+        const ws = wb.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
+
+        if (lower.includes("商品") || lower.includes("主檔") || lower.includes("product")) {
+          rawProducts = json;
+        } else if (lower.includes("進貨") || lower.includes("採購") || lower.includes("purchase")) {
+          rawPurchases = json;
+        } else if (lower.includes("銷") || lower.includes("出貨") || lower.includes("sale")) {
+          rawSales = json;
+        } else if (lower.includes("匯總") || lower.includes("庫存") || lower.includes("inventory")) {
+          rawInventory = json;
+        } else if (lower.includes("收支") || lower.includes("盈餘") || lower.includes("儀表板") || lower.includes("損益")) {
+          rawFinance = json;
+        }
+      });
+
+      // 標準化商品主檔
+      const products = rawProducts.map(r => {
+        const id = String(findColumnValue(r, ["商品編號", "編號", "ID", "Code"]) || "").trim();
+        const name = String(findColumnValue(r, ["商品名稱與規格", "商品名稱", "名稱", "Name", "規格"]) || "").trim();
+        const category = String(findColumnValue(r, ["品類", "分類", "類別", "Category"]) || "一般商品").trim();
+        const cost = parseNum(findColumnValue(r, ["採購參考進價", "進價", "單位成本", "Cost"]));
+        const price = parseNum(findColumnValue(r, ["標準銷售定價", "售價", "定價", "Price"]));
+        const safetyStock = parseNum(findColumnValue(r, ["安全庫存量", "安全庫存", "SafetyStock"])) || 20;
+        const status = String(findColumnValue(r, ["狀態", "Status"]) || "正常").trim();
+        return { id, name, category, cost, price, safetyStock, status };
+      }).filter(p => p.id || p.name);
+
+      // 標準化進貨明細
+      const purchases = rawPurchases.map(r => {
+        const id = String(findColumnValue(r, ["商品編號", "編號", "ID"]) || "").trim();
+        const name = String(findColumnValue(r, ["商品名稱", "商品名稱與規格", "名稱"]) || "").trim();
+        const date = String(findColumnValue(r, ["進貨日期", "採購日期", "日期", "Date"]) || "").trim();
+        const supplier = String(findColumnValue(r, ["供應商名稱", "供應商", "Supplier"]) || "一般供應商").trim();
+        const qty = parseNum(findColumnValue(r, ["採購數量", "進貨數量", "數量", "Qty"]));
+        let unitCost = parseNum(findColumnValue(r, ["進貨單價", "單價", "UnitCost"]));
+        let total = parseNum(findColumnValue(r, ["進貨總金額", "總金額", "總價", "Total"]));
+        if (!total && qty && unitCost) total = qty * unitCost;
+        if (!unitCost && qty && total) unitCost = total / qty;
+        return { po: findColumnValue(r, ["進貨單號", "單號"]) || "PO-Auto", date, supplier, id, name, qty, unitCost, total };
+      }).filter(p => p.qty > 0 || p.total > 0);
+
+      // 標準化銷售明細
+      const sales = rawSales.map(r => {
+        const id = String(findColumnValue(r, ["商品編號", "編號", "ID"]) || "").trim();
+        const name = String(findColumnValue(r, ["商品名稱", "商品名稱與規格", "名稱"]) || "").trim();
+        const date = String(findColumnValue(r, ["銷售日期", "出貨日期", "日期", "Date"]) || "").trim();
+        const channel = String(findColumnValue(r, ["客戶/通路名稱", "客戶名稱", "通路名稱", "Channel"]) || "直接通路").trim();
+        const channelType = String(findColumnValue(r, ["通路類別", "類別", "Type"]) || channel).trim();
+        const qty = parseNum(findColumnValue(r, ["銷售數量", "出貨數量", "數量", "Qty"]));
+        const unitPrice = parseNum(findColumnValue(r, ["銷售單價", "售價", "單價", "Price"]));
+        let revenue = parseNum(findColumnValue(r, ["銷售總收入", "銷售總額", "總收入", "Revenue"]));
+        if (!revenue && qty && unitPrice) revenue = qty * unitPrice;
+
+        let unitCost = parseNum(findColumnValue(r, ["進貨單位成本", "單位成本", "Cost"]));
+        if (!unitCost) {
+          const prod = products.find(p => p.id === id || p.name === name);
+          if (prod) unitCost = prod.cost;
+        }
+        let cogs = parseNum(findColumnValue(r, ["銷售總成本", "總成本", "COGS"]));
+        if (!cogs) cogs = qty * unitCost;
+
+        let profit = parseNum(findColumnValue(r, ["銷售毛利", "毛利", "Profit"]));
+        if (!profit) profit = revenue - cogs;
+
+        const margin = revenue > 0 ? (profit / revenue) : 0;
+        return { so: findColumnValue(r, ["出貨單號", "銷售單號"]) || "SO-Auto", date, channel, channelType, id, name, qty, unitPrice, revenue, unitCost, cogs, profit, margin };
+      }).filter(s => s.revenue > 0 || s.qty > 0);
+
+      // 構建或重新關聯「進銷存匯總表」
+      const inventoryMap = {};
+
+      // 以商品主檔為基底
+      products.forEach(p => {
+        inventoryMap[p.id || p.name] = {
+          id: p.id,
+          name: p.name,
+          category: p.category,
+          unitCost: p.cost,
+          initStock: 20, // 預設期初基準
+          inQty: 0,
+          outQty: 0,
+          finalStock: 20,
+          safetyStock: p.safetyStock || 20
+        };
+      });
+
+      // 疊加進貨
+      purchases.forEach(p => {
+        const key = p.id || p.name;
+        if (!inventoryMap[key]) {
+          inventoryMap[key] = {
+            id: p.id,
+            name: p.name,
+            category: "進貨新增品項",
+            unitCost: p.unitCost,
+            initStock: 0,
+            inQty: 0,
+            outQty: 0,
+            finalStock: 0,
+            safetyStock: 20
+          };
+        }
+        inventoryMap[key].inQty += p.qty;
+        if (p.unitCost > 0) inventoryMap[key].unitCost = p.unitCost;
+      });
+
+      // 疊加銷貨
+      sales.forEach(s => {
+        const key = s.id || s.name;
+        if (!inventoryMap[key]) {
+          inventoryMap[key] = {
+            id: s.id,
+            name: s.name,
+            category: "銷貨品項",
+            unitCost: s.unitCost,
+            initStock: 0,
+            inQty: 0,
+            outQty: 0,
+            finalStock: 0,
+            safetyStock: 20
+          };
+        }
+        inventoryMap[key].outQty += s.qty;
+      });
+
+      // 計算期末量與總額
+      const inventory = Object.values(inventoryMap).map(item => {
+        item.finalStock = item.initStock + item.inQty - item.outQty;
+        item.finalValuation = item.finalStock * item.unitCost;
+        return item;
+      });
+
+      return {
+        products: products.length > 0 ? products : SAMPLE_DATASET.products,
+        purchases,
+        sales,
+        inventory,
+        finance: SAMPLE_DATASET.finance
+      };
+    }
+
+    // --- 5. 計算核心指標與更新 UI ---
+    function updateDashboard(data) {
+      appData = data;
+
+      // 統計指標計算
+      const totalRevenue = data.sales.reduce((sum, s) => sum + s.revenue, 0);
+      const totalCOGS = data.sales.reduce((sum, s) => sum + s.cogs, 0);
+      const grossProfit = totalRevenue - totalCOGS;
+      const grossMargin = totalRevenue > 0 ? (grossProfit / totalRevenue) : 0;
+
+      const totalInventoryVal = data.inventory.reduce((sum, i) => sum + Math.max(0, i.finalValuation), 0);
+
+      const opex = data.finance.expenses;
+      const totalOpex = (opex.payroll || 0) + (opex.marketing || 0) + (opex.rent || 0) + (opex.cloud || 0);
+      const operatingProfit = grossProfit - totalOpex;
+      const netMargin = totalRevenue > 0 ? (operatingProfit / totalRevenue) : 0;
+
+      // 庫存健康度預警統計
+      let criticalCount = 0;
+      let warnCount = 0;
+      data.inventory.forEach(item => {
+        if (item.finalStock <= item.safetyStock * 0.8) {
+          criticalCount++;
+        } else if (item.finalStock <= item.safetyStock) {
+          warnCount++;
+        }
+      });
+
+      // 更新頂部狀態列
+      document.getElementById('statProducts').textContent = data.products.length;
+      document.getElementById('statPurchases').textContent = data.purchases.length;
+      document.getElementById('statSales').textContent = data.sales.length;
+      document.getElementById('datasetTitle').textContent = "即時營運數據已就緒";
+      document.getElementById('statusIndicator').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+
+      // 獲取銷售日期範圍
+      const dates = data.sales.map(s => s.date).filter(Boolean).sort();
+      if (dates.length > 0) {
+        document.getElementById('dataTimeRange').textContent = `${dates[0]} ~ ${dates[dates.length - 1]}`;
+      } else {
+        document.getElementById('dataTimeRange').textContent = "2026 Q1";
+      }
+
+      // 更新 KPI 卡片
+      document.getElementById('kpiRevenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('kpiRevenueSub').textContent = `成本：${formatCurrency(totalCOGS)}`;
+
+      document.getElementById('kpiGrossProfit').textContent = formatCurrency(grossProfit);
+      document.getElementById('kpiMargin').innerHTML = `毛利率：<span class="font-mono font-semibold text-sky-300">${formatPercent(grossMargin)}</span>`;
+
+      document.getElementById('kpiInventoryVal').textContent = formatCurrency(totalInventoryVal);
+      document.getElementById('kpiInventoryItems').textContent = `在庫品項：${data.inventory.length} 款`;
+
+      document.getElementById('kpiNetProfit').textContent = formatCurrency(operatingProfit);
+      document.getElementById('kpiNetMargin').innerHTML = `淨利率：<span class="font-mono font-semibold text-emerald-300">${formatPercent(netMargin)}</span>`;
+
+      document.getElementById('kpiAlertCount').textContent = criticalCount + warnCount;
+      document.getElementById('kpiCriticalBadge').textContent = `${criticalCount} 緊急`;
+      document.getElementById('kpiWarnBadge').textContent = `${warnCount} 警示`;
+
+      // 更新損益表模組 (P&L)
+      document.getElementById('plRevenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('plCogs').textContent = formatCurrency(totalCOGS);
+      document.getElementById('plCogsPct').textContent = formatPercent(totalRevenue > 0 ? (totalCOGS / totalRevenue) : 0);
+
+      document.getElementById('plGross').textContent = formatCurrency(grossProfit);
+      document.getElementById('plGrossPct').textContent = formatPercent(grossMargin);
+
+      document.getElementById('plOpexTotal').textContent = formatCurrency(totalOpex);
+      document.getElementById('plOpexTotalPct').textContent = formatPercent(totalRevenue > 0 ? (totalOpex / totalRevenue) : 0);
+
+      document.getElementById('plExpPayroll').textContent = formatCurrency(opex.payroll);
+      document.getElementById('plExpMarketing').textContent = formatCurrency(opex.marketing);
+      document.getElementById('plExpRent').textContent = formatCurrency(opex.rent);
+      document.getElementById('plExpCloud').textContent = formatCurrency(opex.cloud);
+
+      document.getElementById('plOperatingProfit').textContent = formatCurrency(operatingProfit);
+      document.getElementById('plNetMarginPct').textContent = formatPercent(netMargin);
+
+      // 進度條與健康診斷
+      const cogsPctNum = totalRevenue > 0 ? (totalCOGS / totalRevenue) * 100 : 0;
+      const opexPctNum = totalRevenue > 0 ? (totalOpex / totalRevenue) * 100 : 0;
+      const netPctNum = totalRevenue > 0 ? (operatingProfit / totalRevenue) * 100 : 0;
+
+      document.getElementById('barCogs').style.width = `${Math.min(100, Math.max(0, cogsPctNum))}%`;
+      document.getElementById('barCogsLabel').textContent = `${cogsPctNum.toFixed(1)}%`;
+
+      document.getElementById('barOpex').style.width = `${Math.min(100, Math.max(0, opexPctNum))}%`;
+      document.getElementById('barOpexLabel').textContent = `${opexPctNum.toFixed(1)}%`;
+
+      document.getElementById('barNet').style.width = `${Math.min(100, Math.max(0, netPctNum))}%`;
+      document.getElementById('barNetLabel').textContent = `${netPctNum.toFixed(1)}%`;
+
+      // 診斷短評
+      let comment = "";
+      if (grossMargin >= 0.5) {
+        comment += "✅ 毛利結構優異（≥50%），高附加價值產品線支撐穩固。";
+      } else {
+        comment += "⚠️ 毛利率偏低（<50%），需關注銷貨成本與採購進價波動。";
+      }
+      if (operatingProfit > 0) {
+        comment += " 營業淨利維持正向獲利，營業費用控制在合理區間。";
+      } else {
+        comment += " 🚨 目前處於營業虧損狀態，建議盤點人事行銷費用或提高營收規模。";
+      }
+      document.getElementById('healthCommentary').textContent = comment;
+
+      // 渲染表格與篩選器
+      renderCategoryFilter(data.inventory);
+      renderInventoryTable(data.inventory);
+
+      // 渲染 4 大圖表
+      renderChartTrend(data.sales, totalOpex);
+      renderChartChannels(data.sales);
+      renderChartTopProducts(data.sales);
+      renderChartInventoryHealth(data.inventory);
+
+      lucide.createIcons();
+    }
+
+    // --- 6. 進銷存表格渲染與篩選 ---
+    function renderCategoryFilter(inventory) {
+      const select = document.getElementById('categoryFilter');
+      const currentVal = select.value;
+      const categories = Array.from(new Set(inventory.map(i => i.category).filter(Boolean)));
+      
+      select.innerHTML = '<option value="ALL">所有品類</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+      });
+      if (categories.includes(currentVal)) select.value = currentVal;
+    }
+
+    function renderInventoryTable(items) {
+      const tbody = document.getElementById('inventoryTableBody');
+      const search = document.getElementById('inventorySearch').value.toLowerCase();
+      const catFilter = document.getElementById('categoryFilter').value;
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      const filtered = items.filter(item => {
+        const matchSearch = (item.id && item.id.toLowerCase().includes(search)) || 
+                            (item.name && item.name.toLowerCase().includes(search));
+        const matchCat = catFilter === "ALL" || item.category === catFilter;
+        
+        let status = "HEALTHY";
+        if (item.finalStock <= item.safetyStock * 0.8) status = "CRITICAL";
+        else if (item.finalStock <= item.safetyStock) status = "WARNING";
+        
+        const matchStatus = statusFilter === "ALL" || statusFilter === status;
+        return matchSearch && matchCat && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-slate-500 font-sans">無符合篩選條件的商品明細</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        let badgeHtml = '';
+        if (item.finalStock <= item.safetyStock * 0.8) {
+          badgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] bg-red-950 text-red-400 border border-red-800 font-sans">🔴 緊急補貨</span>';
+        } else if (item.finalStock <= item.safetyStock) {
+          badgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-950 text-amber-400 border border-amber-800 font-sans">🟡 庫存偏低</span>';
+        } else {
+          badgeHtml = '<span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 font-sans">🟢 庫存正常</span>';
+        }
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 px-3 font-semibold text-slate-200">${item.id || '-'}</td>
+            <td class="py-2.5 px-3 text-slate-400 font-sans">${item.category || '-'}</td>
+            <td class="py-2.5 px-4 text-slate-200 font-sans font-medium">${item.name}</td>
+            <td class="py-2.5 px-3 text-right text-slate-300">${formatCurrency(item.unitCost)}</td>
+            <td class="py-2.5 px-2 text-right text-slate-400">${item.initStock}</td>
+            <td class="py-2.5 px-2 text-right text-teal-400">+${item.inQty}</td>
+            <td class="py-2.5 px-2 text-right text-rose-400">-${item.outQty}</td>
+            <td class="py-2.5 px-3 text-right font-bold ${item.finalStock <= item.safetyStock ? 'text-amber-300' : 'text-slate-100'}">${item.finalStock}</td>
+            <td class="py-2.5 px-3 text-right text-slate-200">${formatCurrency(item.finalValuation)}</td>
+            <td class="py-2.5 px-3 text-center text-slate-400">${item.safetyStock}</td>
+            <td class="py-2.5 px-3 text-center">${badgeHtml}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // --- 7. ECharts 圖表視覺化模組 ---
+    
+    // 圖表 A: 月度走勢
+    function renderChartTrend(sales, monthlyOpexTotal) {
+      const chartDom = document.getElementById('chartTrend');
+      if (!charts.trend) charts.trend = echarts.init(chartDom, 'dark');
+
+      const monthlyMap = {};
+      sales.forEach(s => {
+        const m = s.date ? s.date.substring(0, 7) : "2026-01";
+        if (!monthlyMap[m]) monthlyMap[m] = { revenue: 0, cogs: 0 };
+        monthlyMap[m].revenue += s.revenue;
+        monthlyMap[m].cogs += s.cogs;
+      });
+
+      let months = Object.keys(monthlyMap).sort();
+      if (months.length === 0) months = ["2026-01", "2026-02", "2026-03"];
+
+      const avgMonthlyOpex = monthlyOpexTotal / (months.length || 1);
+      const revData = [];
+      const expData = [];
+      const netData = [];
+
+      months.forEach(m => {
+        const d = monthlyMap[m] || { revenue: 0, cogs: 0 };
+        const totalExp = d.cogs + avgMonthlyOpex;
+        const net = d.revenue - totalExp;
+        revData.push(d.revenue);
+        expData.push(totalExp);
+        netData.push(net);
+      });
+
+      const option = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          formatter: params => {
+            let res = `<div class="font-sans text-xs"><div class="font-bold mb-1">${params[0].name}</div>`;
+            params.forEach(p => {
+              res += `<div class="flex justify-between gap-4"><span>${p.marker} ${p.seriesName}:</span> <span class="font-mono font-bold">${formatCurrency(p.value)}</span></div>`;
+            });
+            res += '</div>';
+            return res;
+          }
+        },
+        legend: {
+          data: ['營業收入', '總營運支出', '本期淨利'],
+          textStyle: { color: '#94a3b8', fontSize: 11 },
+          top: 0
+        },
+        grid: { top: 35, right: 15, bottom: 25, left: 60 },
+        xAxis: {
+          type: 'category',
+          data: months,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: {
+            color: '#94a3b8',
+            fontSize: 10,
+            formatter: v => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v)
+          }
+        },
+        series: [
+          {
+            name: '營業收入',
+            type: 'bar',
+            data: revData,
+            itemStyle: { color: '#14b8a6', borderRadius: [4, 4, 0, 0] }
+          },
+          {
+            name: '總營運支出',
+            type: 'bar',
+            data: expData,
+            itemStyle: { color: '#f43f5e', borderRadius: [4, 4, 0, 0] }
+          },
+          {
+            name: '本期淨利',
+            type: 'line',
+            data: netData,
+            smooth: true,
+            symbolSize: 8,
+            itemStyle: { color: '#38bdf8' },
+            lineStyle: { width: 3 }
+          }
+        ]
+      };
+      charts.trend.setOption(option);
+    }
+
+    // 圖表 B: 通路分佈
+    function renderChartChannels(sales) {
+      const chartDom = document.getElementById('chartChannels');
+      if (!charts.channels) charts.channels = echarts.init(chartDom, 'dark');
+
+      const channelMap = {};
+      sales.forEach(s => {
+        const ch = s.channelType || s.channel || "其他通路";
+        if (!channelMap[ch]) channelMap[ch] = 0;
+        channelMap[ch] += s.revenue;
+      });
+
+      const pieData = Object.entries(channelMap).map(([name, value]) => ({ name, value }));
+
+      const option = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          formatter: params => `
+            <div class="font-sans text-xs">
+              <span class="font-bold">${params.name}</span><br/>
+              營收: <span class="font-mono font-bold">${formatCurrency(params.value)}</span> (${params.percent}%)
+            </div>
+          `
+        },
+        legend: {
+          orient: 'vertical',
+          right: '5%',
+          top: 'center',
+          textStyle: { color: '#94a3b8', fontSize: 11 }
+        },
+        series: [
+          {
+            name: '通路營收',
+            type: 'pie',
+            radius: ['45%', '72%'],
+            center: ['35%', '50%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 6,
+              borderColor: '#0f172a',
+              borderWidth: 2
+            },
+            label: { show: false },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 12,
+                fontWeight: 'bold',
+                color: '#fff'
+              }
+            },
+            data: pieData.length > 0 ? pieData : [{ name: '尚無銷售', value: 0 }],
+            color: ['#0ea5e9', '#14b8a6', '#6366f1', '#f59e0b', '#ec4899']
+          }
+        ]
+      };
+      charts.channels.setOption(option);
+    }
+
+    // 圖表 C: Top 5 產品
+    function renderChartTopProducts(sales) {
+      const chartDom = document.getElementById('chartTopProducts');
+      if (!charts.topProducts) charts.topProducts = echarts.init(chartDom, 'dark');
+
+      const productMap = {};
+      sales.forEach(s => {
+        const name = s.name || s.id || "未知品項";
+        if (!productMap[name]) productMap[name] = { revenue: 0, profit: 0 };
+        productMap[name].revenue += s.revenue;
+        productMap[name].profit += s.profit;
+      });
+
+      const sorted = Object.entries(productMap)
+        .map(([name, data]) => ({ name, ...data }))
+        .sort((a, b) => b.revenue - a.revenue)
+        .slice(0, 5)
+        .reverse();
+
+      const names = sorted.map(i => i.name.length > 10 ? i.name.substring(0, 10) + '...' : i.name);
+      const revs = sorted.map(i => i.revenue);
+      const profits = sorted.map(i => i.profit);
+
+      const option = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          formatter: params => {
+            let res = `<div class="font-sans text-xs"><div class="font-bold mb-1">${params[0].name}</div>`;
+            params.forEach(p => {
+              res += `<div class="flex justify-between gap-4"><span>${p.marker} ${p.seriesName}:</span> <span class="font-mono font-bold">${formatCurrency(p.value)}</span></div>`;
+            });
+            res += '</div>';
+            return res;
+          }
+        },
+        legend: {
+          data: ['銷售額', '毛利額'],
+          textStyle: { color: '#94a3b8', fontSize: 11 },
+          top: 0
+        },
+        grid: { top: 30, right: 20, bottom: 20, left: 110 },
+        xAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: {
+            color: '#94a3b8',
+            fontSize: 10,
+            formatter: v => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v)
+          }
+        },
+        yAxis: {
+          type: 'category',
+          data: names,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#cbd5e1', fontSize: 11 }
+        },
+        series: [
+          {
+            name: '銷售額',
+            type: 'bar',
+            data: revs,
+            itemStyle: { color: '#3b82f6', borderRadius: [0, 4, 4, 0] }
+          },
+          {
+            name: '毛利額',
+            type: 'bar',
+            data: profits,
+            itemStyle: { color: '#10b981', borderRadius: [0, 4, 4, 0] }
+          }
+        ]
+      };
+      charts.topProducts.setOption(option);
+    }
+
+    // 圖表 D: 庫存健康度對比
+    function renderChartInventoryHealth(inventory) {
+      const chartDom = document.getElementById('chartInventoryHealth');
+      if (!charts.inventoryHealth) charts.inventoryHealth = echarts.init(chartDom, 'dark');
+
+      const topItems = inventory.slice(0, 6);
+      const names = topItems.map(i => i.name.length > 8 ? i.name.substring(0, 8) + '...' : i.name);
+      const finalStocks = topItems.map(i => i.finalStock);
+      const safetyStocks = topItems.map(i => i.safetyStock);
+
+      const option = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' }
+        },
+        legend: {
+          data: ['期末在庫量', '安全庫存標準線'],
+          textStyle: { color: '#94a3b8', fontSize: 11 },
+          top: 0
+        },
+        grid: { top: 35, right: 15, bottom: 25, left: 40 },
+        xAxis: {
+          type: 'category',
+          data: names,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 10, interval: 0 }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', fontSize: 10 }
+        },
+        series: [
+          {
+            name: '期末在庫量',
+            type: 'bar',
+            data: finalStocks,
+            itemStyle: {
+              color: params => {
+                const item = topItems[params.dataIndex];
+                if (item.finalStock <= item.safetyStock * 0.8) return '#ef4444';
+                if (item.finalStock <= item.safetyStock) return '#f59e0b';
+                return '#6366f1';
+              },
+              borderRadius: [4, 4, 0, 0]
+            }
+          },
+          {
+            name: '安全庫存標準線',
+            type: 'line',
+            data: safetyStocks,
+            itemStyle: { color: '#fbbf24' },
+            lineStyle: { type: 'dashed', width: 2 }
+          }
+        ]
+      };
+      charts.inventoryHealth.setOption(option);
+    }
+
+    // --- 8. 事件監聽與檔案讀取綁定 ---
+    function handleFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+          const parsed = processExcelWorkbook(workbook);
+          updateDashboard(parsed);
+        } catch (err) {
+          alert('解析 Excel 檔案失敗，請檢查格式是否正確！\n' + err.message);
+          console.error(err);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+
+      // 監聽範例載入按鈕
+      document.getElementById('btnLoadSample').addEventListener('click', () => {
+        // 重建庫存匯總
+        const map = {};
+        SAMPLE_DATASET.products.forEach(p => {
+          map[p.id] = { ...p, unitCost: p.cost, initStock: 30, inQty: 0, outQty: 0, finalStock: 30 };
+        });
+        SAMPLE_DATASET.purchases.forEach(p => {
+          if (map[p.id]) map[p.id].inQty += p.qty;
+        });
+        SAMPLE_DATASET.sales.forEach(s => {
+          if (map[s.id]) map[s.id].outQty += s.qty;
+        });
+        const inventory = Object.values(map).map(i => {
+          i.finalStock = i.initStock + i.inQty - i.outQty;
+          i.finalValuation = i.finalStock * i.unitCost;
+          return i;
+        });
+
+        updateDashboard({
+          products: SAMPLE_DATASET.products,
+          purchases: SAMPLE_DATASET.purchases,
+          sales: SAMPLE_DATASET.sales,
+          inventory: inventory,
+          finance: SAMPLE_DATASET.finance
+        });
+      });
+
+      // 檔案上傳輸入監聽
+      const fileInput = document.getElementById('fileInput');
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleFile(e.target.files[0]);
+      });
+
+      // 拖曳 Dropzone 監聽
+      const dropzone = document.getElementById('dropzone');
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('border-teal-400', 'bg-slate-900');
+        }, false);
+      });
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('border-teal-400', 'bg-slate-900');
+        }, false);
+      });
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt.files && dt.files.length > 0) {
+          handleFile(dt.files[0]);
+        }
+      });
+
+      // 表格即時篩選與搜尋
+      document.getElementById('inventorySearch').addEventListener('input', () => renderInventoryTable(appData.inventory));
+      document.getElementById('categoryFilter').addEventListener('change', () => renderInventoryTable(appData.inventory));
+      document.getElementById('statusFilter').addEventListener('change', () => renderInventoryTable(appData.inventory));
+
+      // 視窗 Resize 自動適配 ECharts
+      window.addEventListener('resize', () => {
+        Object.values(charts).forEach(c => {
+          if (c) c.resize();
+        });
+      });
+
+      // 預設主動載入示範數據供初次開啟即時檢視
+      document.getElementById('btnLoadSample').click();
+    });
+  </script>
+</body>
+</html>

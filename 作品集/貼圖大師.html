@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客製化 3D 貼圖成果</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#FFC1CC',
+                        mintGreen: '#B2F5EA',
+                        lavender: '#E9D5FF',
+                        coral: '#FF6F61',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        display: ['"Quicksand"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9FAFB; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .sticker-card:hover { transform: translateY(-10px) scale(1.02); }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased py-10 px-4 md:px-8">
+
+    <!-- Header Section -->
+    <header class="max-w-6xl mx-auto text-center mb-16">
+        <h1 class="text-4xl md:text-6xl font-black bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent font-display">
+            客製化 3D 貼圖成果
+        </h1>
+        <p class="mt-4 text-gray-500 text-lg">為您專屬打造的可愛創意貼圖</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-16">
+        
+        <!-- Input Context Section -->
+        <section class="grid md:grid-cols-2 gap-8 items-center bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl border border-gray-100">
+            <div class="flex justify-center">
+                <div class="w-64 h-64 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-pink-100">
+                    <img src='https://opal.google/board/blobs/5c85d0f1-ef3d-4457-81aa-7371adc2f014' alt='使用者照片' class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6">設計規格</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-mintGreen p-3 rounded-2xl">🎨</div>
+                        <div>
+                            <p class="text-sm text-gray-400 font-bold uppercase tracking-wider">風格</p>
+                            <p class="text-xl font-semibold">可愛彩色鉛筆素描風格</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-pastelPink p-3 rounded-2xl">💬</div>
+                        <div>
+                            <p class="text-sm text-gray-400 font-bold uppercase tracking-wider">標語內容</p>
+                            <p class="text-xl font-semibold">早安,你好</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sticker Showcase Grid -->
+        <section>
+            <h2 class="text-3xl font-bold mb-10 text-center font-display">貼圖預覽</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Sticker 1 -->
+                <div class="sticker-card bg-white p-4 rounded-3xl shadow-lg transition-all duration-300 border border-gray-50 flex flex-col items-center">
+                    <img src='https://opal.google/board/blobs/0b618c11-1246-4281-989d-958b9f7d02be' alt='貼圖 1' class="w-full h-auto rounded-2xl mb-4">
+                    <button class="w-full py-2 bg-gray-100 hover:bg-coral hover:text-white rounded-xl transition-colors text-sm font-bold">下載貼圖</button>
+                </div>
+                <!-- Sticker 2 -->
+                <div class="sticker-card bg-white p-4 rounded-3xl shadow-lg transition-all duration-300 border border-gray-50 flex flex-col items-center">
+                    <img src='https://opal.google/board/blobs/0f124f98-dc96-4ef7-93c6-e2292365a9a7' alt='貼圖 2' class="w-full h-auto rounded-2xl mb-4">
+                    <button class="w-full py-2 bg-gray-100 hover:bg-coral hover:text-white rounded-xl transition-colors text-sm font-bold">下載貼圖</button>
+                </div>
+                <!-- Sticker 3 -->
+                <div class="sticker-card bg-white p-4 rounded-3xl shadow-lg transition-all duration-300 border border-gray-50 flex flex-col items-center">
+                    <img src='https://opal.google/board/blobs/8e44b829-181b-494f-82bf-317c640f16df' alt='貼圖 3' class="w-full h-auto rounded-2xl mb-4">
+                    <button class="w-full py-2 bg-gray-100 hover:bg-coral hover:text-white rounded-xl transition-colors text-sm font-bold">下載貼圖</button>
+                </div>
+                <!-- Sticker 4 -->
+                <div class="sticker-card bg-white p-4 rounded-3xl shadow-lg transition-all duration-300 border border-gray-50 flex flex-col items-center">
+                    <img src='https://opal.google/board/blobs/d7011b41-a8c8-47ba-a824-f659b4176a5f' alt='貼圖 4' class="w-full h-auto rounded-2xl mb-4">
+                    <button class="w-full py-2 bg-gray-100 hover:bg-coral hover:text-white rounded-xl transition-colors text-sm font-bold">下載貼圖</button>
+                </div>
+                <!-- Sticker 5 -->
+                <div class="sticker-card bg-white p-4 rounded-3xl shadow-lg transition-all duration-300 border border-gray-50 flex flex-col items-center">
+                    <img src='https://opal.google/board/blobs/7e4db3a3-c921-455f-b1c4-cdd7a978c497' alt='貼圖 5' class="w-full h-auto rounded-2xl mb-4">
+                    <button class="w-full py-2 bg-gray-100 hover:bg-coral hover:text-white rounded-xl transition-colors text-sm font-bold">下載貼圖</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Simple Minimalist Closing -->
+    <footer class="mt-24 text-center text-gray-400">
+        <p class="text-sm">感謝您使用 AI 貼圖生成器，希望這些作品能點亮您的一天！</p>
+    </footer>
+
+</body>
+</html>
