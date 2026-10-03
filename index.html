@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 專案管理師 | 15年實戰經驗 × 跨領域轉譯最適解</title>
+    <title>Mia Wang｜AI Project Manager・AI 導入與流程改善</title>
+    <meta name="description" content="Mia Wang 王俞文，AI Project Manager。十多年行政、會計、人資與營運實務經驗，專注 AI 導入與流程改善。精選案例：我的數位腦。">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -73,6 +74,17 @@
             }
         }
     </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .eyebrow { @apply text-xs font-black tracking-widest text-sage-600 dark:text-sage-400 uppercase; }
+            .h2 { @apply text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-snug; }
+            .card { @apply rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm; }
+            .chip { @apply inline-block px-3 py-1 rounded-full text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200; }
+            .btn-primary { @apply inline-flex items-center gap-2 bg-sage-600 hover:bg-sage-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm transition; }
+            .btn-ghost { @apply inline-flex items-center gap-2 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-bold px-5 py-2.5 rounded-xl transition; }
+            .step-no { @apply text-2xl font-black text-sage-500 mb-2; }
+        }
+    </style>
     <style>
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
@@ -133,7 +145,7 @@
                         AI
                     </div>
                     <div>
-                        <span class="text-base font-bold text-slate-800 dark:text-slate-100 block leading-tight">資深專案轉譯者</span>
+                        <span class="text-base font-bold text-slate-800 dark:text-slate-100 block leading-tight">Mia Wang</span>
                         <span class="text-xs text-sage-600 dark:text-sage-400 font-semibold">AI Project Manager</span>
                     </div>
                 </a>
@@ -141,10 +153,11 @@
                 <!-- Desktop Navigation Links -->
                 <nav class="hidden md:flex items-center space-x-7 text-sm font-semibold text-slate-600 dark:text-slate-300">
                     <a href="#about" class="hover:text-sage-600 dark:hover:text-sage-400 transition">關於我</a>
-                    <a href="#bridge" class="hover:text-sage-600 dark:hover:text-sage-400 transition">核心優勢</a>
-                    <a href="#experience" class="hover:text-sage-600 dark:hover:text-sage-400 transition">15年歷練</a>
-                    <a href="#tools" class="hover:text-sage-600 dark:hover:text-sage-400 transition">AI 工具庫</a>
-                    <a href="#solutions" class="hover:text-sage-600 dark:hover:text-sage-400 transition">實戰解方</a>
+                    <a href="#projects" class="hover:text-sage-600 dark:hover:text-sage-400 transition">精選案例</a>
+                    <a href="#how" class="hover:text-sage-600 dark:hover:text-sage-400 transition">工作方式</a>
+                    <a href="#thinking" class="hover:text-sage-600 dark:hover:text-sage-400 transition">AI 思維</a>
+                    <a href="#experience" class="hover:text-sage-600 dark:hover:text-sage-400 transition">經歷</a>
+                    <a href="#tools" class="hover:text-sage-600 dark:hover:text-sage-400 transition">工具</a>
                     <a href="作品集/" class="hover:text-sage-600 dark:hover:text-sage-400 transition">作品集</a>
                 </nav>
 
@@ -169,7 +182,7 @@
 
                     <!-- CTA Button -->
                     <a href="#contact" class="bg-gradient-to-r from-sage-600 to-teal-600 hover:from-sage-700 hover:to-teal-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all-custom flex items-center gap-2">
-                        <i class="fa-regular fa-paper-plane text-xs"></i> 聯繫合作
+                        <i class="fa-regular fa-paper-plane text-xs"></i> 聯絡我
                     </a>
                 </div>
 
@@ -197,492 +210,265 @@
         <!-- Mobile Navigation Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-6 space-y-3 shadow-lg">
             <a href="#about" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">關於我</a>
-            <a href="#bridge" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">核心優勢</a>
-            <a href="#experience" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">15年歷練</a>
-            <a href="#tools" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">AI 工具庫</a>
-            <a href="#solutions" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">實戰解方</a>
+            <a href="#projects" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">精選案例</a>
+            <a href="#how" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">工作方式</a>
+            <a href="#thinking" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">AI 思維</a>
+            <a href="#experience" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">經歷</a>
+            <a href="#tools" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">工具</a>
             <a href="作品集/" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sage-50 dark:hover:bg-slate-800">作品集</a>
-            <a href="#contact" class="block w-full text-center bg-sage-600 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm mt-4">聯繫合作</a>
+            <a href="#contact" class="block w-full text-center bg-sage-600 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm mt-4">聯絡我</a>
         </div>
     </header>
 
     <main class="pt-20">
-        <!-- Hero Section -->
-        <section id="hero" class="relative overflow-hidden py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-sage-50/80 via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 transition-colors">
-            <div class="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
-            
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        <!-- Hero -->
+        <section id="hero" class="relative overflow-hidden py-16 sm:py-24 bg-gradient-to-b from-sage-50/80 to-white dark:from-slate-950 dark:to-slate-900">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <!-- Left Hero Content -->
-                    <div id="about" class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 dark:bg-slate-800/90 border border-sage-300 dark:border-sage-700 text-sage-800 dark:text-sage-300 text-xs sm:text-sm font-bold shadow-sm backdrop-blur-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                            15年跨產業實戰 ➔ 轉型 AI 專案管理師
-                        </div>
-
+                    <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+                        <p class="eyebrow">AI PROJECT MANAGER · AI 導入與流程改善</p>
                         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-tight sm:leading-snug">
-                            聽懂客戶要什麼<br class="hidden sm:inline"/>
-                            看懂技術能做什麼<br/>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sage-600 via-teal-500 to-emerald-500 dark:from-sage-300 dark:via-teal-300 dark:to-emerald-400">尋找溝通與落地的最適解</span>
+                            先做熟，再動手改<br/>
+                            <span class="text-sage-600 dark:text-sage-300">小步試，邊用邊修</span>
                         </h1>
-
-                        <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                            擁有 <span class="font-bold text-slate-800 dark:text-slate-100 underline decoration-amber-400 decoration-2">不動產、生技、人力派遣</span> 跨界 15 年行政、會計、人資全方位經驗，具備獨立解決複雜問題的敏銳度與韌性。現正精進 AI 專案管理，致力將企業業務需求精準轉譯為 AI 落地方案。
+                        <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed space-y-4">
+                            十多年行政、會計、人資與營運實務經驗。<br/><br/>
+                            我習慣先把流程真正跑懂，找出卡點與風險，<br class="hidden sm:inline"/>
+                            再思考該用制度、資料、自動化，還是 AI 解決。<br/><br/>
+                            現在，我希望把這些第一線的營運經驗，<br class="hidden sm:inline"/>
+                            轉化成能真正落地的 AI 專案與數位流程。
                         </p>
-                    <!-- Right Visual Card: Profile Photo & Bridge Concept -->
-                    <div class="lg:col-span-5 space-y-5">
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-sage-500 via-teal-500 to-emerald-500 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative bg-white/95 dark:bg-slate-900/95 rounded-3xl p-5 shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-4 sm:gap-5 backdrop-blur-md">
-                                <div class="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl overflow-hidden border-2 border-sage-400/60 shadow-md">
-                                    <img src="https://img.ai365.fans/cdn-cgi/image/width=1400,quality=90,format=auto/artworks/c55ead95-64c9-4a35-824b-651a15ee1c81/zbvzpyqc5vc.png" 
-                                         alt="Mia Wang 王俞文 - AI 專案管理師" 
-                                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition duration-500"
-                                         onerror="this.onerror=null; this.src='https://placehold.co/300x300/4e7167/ffffff?text=Mia+Wang';">
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="flex items-center gap-2">
-                                        <span class="px-2.5 py-0.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[11px] font-black rounded-md border border-emerald-200 dark:border-emerald-800">
-                                            Mia Wang | 王俞文
-                                        </span>
-                                    </div>
-                                    <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 leading-tight">
-                                        AI 專案管理師
-                                    </h3>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                                        15年跨領域實務經驗 × 跨界最適解
-                                    </p>
-                                    <div class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1.5 pt-1">
-                                        <i class="fa-solid fa-circle text-[7px] animate-pulse"></i>
-                                        <span>開放專案合作 / AI PM 諮詢</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Interactive Bridge Concept Card -->
-                        <div class="bg-white/90 dark:bg-slate-900/90 rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-100 dark:border-slate-800 relative transition-all">
-                            <!-- Subtle Ambient Glow -->
-                            <div class="absolute -top-6 -right-6 w-36 h-36 bg-sage-300/40 dark:bg-sage-600/20 rounded-full blur-2xl pointer-events-none"></div>
-                            <div class="absolute -bottom-6 -left-6 w-36 h-36 bg-teal-300/40 dark:bg-teal-600/20 rounded-full blur-2xl pointer-events-none"></div>
-
-                            <div class="relative z-10 space-y-4">
-                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                                    <h3 class="text-xs font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase">AI 專案核心定位</h3>
-                                    <span class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold px-3 py-1 rounded-full border border-emerald-300 dark:border-emerald-800">The Translator</span>
-                                </div>
-
-                                <!-- Box 1: Client Needs -->
-                                <div class="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 flex items-start gap-3 hover:scale-[1.02] transition">
-                                    <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 font-bold shadow-md text-sm">
-                                        <i class="fa-regular fa-comments"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-[11px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-wider">需求端 (Client / Business)</div>
-                                        <p class="text-xs font-bold text-slate-800 dark:text-slate-100">「聽懂痛點與業務真實目標」</p>
-                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">跨越專業術語牆，梳理行政、財務與人力流程眉角</p>
-                                    </div>
-                                </div>
-
-                                <!-- Middle Connector -->
-                                <div class="flex justify-center my-[-8px]">
-                                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sage-600 to-teal-500 text-white flex items-center justify-center shadow-lg text-base font-bold border-4 border-white dark:border-slate-900 animate-pulse-glow">
-                                        <i class="fa-solid fa-arrows-rotate animate-spin-slow"></i>
-                                    </div>
-                                </div>
-
-                                <!-- Box 2: Tech Capabilities -->
-                                <div class="p-3.5 rounded-2xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200/80 dark:border-sky-800/50 flex items-start gap-3 hover:scale-[1.02] transition">
-                                    <div class="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center shrink-0 font-bold shadow-md text-sm">
-                                        <i class="fa-solid fa-code"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-[11px] font-black text-sky-700 dark:text-sky-400 uppercase tracking-wider">技術端 (AI / Developer)</div>
-                                        <p class="text-xs font-bold text-slate-800 dark:text-slate-100">「看懂技術邊界與可行性」</p>
-                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">評估 LLM、自動化工作流與 Prompt 實作限制</p>
-                                    </div>
-                                </div>
-
-                                <!-- Result Output Box -->
-                                <div class="p-3.5 rounded-2xl bg-gradient-to-r from-sage-600 via-teal-600 to-emerald-600 text-white shadow-md">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <i class="fa-solid fa-bullseye text-amber-300 text-xs"></i>
-                                            <span class="text-[11px] font-bold uppercase tracking-wider text-sage-100">核心產出</span>
-                                        </div>
-                                        <span class="text-[11px] font-black text-amber-300">Optimal Solution</span>
-                                    </div>
-                                    <p class="text-xs font-extrabold mt-1">成本最低、溝通最順、效益最高之「最適落地解」</p>
-                                </div>
-
-                            </div>
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                            <a href="#projects" class="btn-primary"><i class="fa-solid fa-arrow-down text-xs"></i> 查看精選案例</a>
+                            <a href="https://github.com/witch6996-commits" target="_blank" rel="noopener" class="btn-ghost"><i class="fa-brands fa-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/mia-wang-7a42b9342" target="_blank" rel="noopener" class="btn-ghost"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
 
+                    <div class="lg:col-span-4">
+                        <div class="card flex items-center gap-4 p-5">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl overflow-hidden border-2 border-sage-400/60 shadow-md">
+                                <img src="https://img.ai365.fans/cdn-cgi/image/width=1400,quality=90,format=auto/artworks/c55ead95-64c9-4a35-824b-651a15ee1c81/zbvzpyqc5vc.png"
+                                     alt="Mia Wang 王俞文" class="w-full h-full object-cover object-center"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/300x300/4e7167/ffffff?text=Mia+Wang';">
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-base font-bold text-slate-800 dark:text-slate-100">Mia Wang｜王俞文</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">AI Project Manager</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">十多年跨產業營運經驗</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Core Value Proposition Section -->
-        <section id="bridge" class="py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800 transition-colors">
+        <!-- About -->
+        <section id="about" class="py-16 sm:py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <p class="eyebrow">ABOUT · 我的工作方式</p>
+                <h2 class="h2">我不是從技術開始，而是從問題開始</h2>
+                <div class="space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p>過去的工作讓我長期處理行政、財務、人資、物流、合約與跨部門協作。</p>
+                    <p>我最常做的事情，不只是「把工作完成」，而是去思考：</p>
+                    <ul class="space-y-1.5 pl-1">
+                        <li class="flex gap-2"><i class="fa-solid fa-circle-question text-sage-500 mt-1.5 text-xs"></i>為什麼這個流程一直出錯？</li>
+                        <li class="flex gap-2"><i class="fa-solid fa-circle-question text-sage-500 mt-1.5 text-xs"></i>哪些資料其實可以整合？</li>
+                        <li class="flex gap-2"><i class="fa-solid fa-circle-question text-sage-500 mt-1.5 text-xs"></i>哪些工作可以少做一次？</li>
+                        <li class="flex gap-2"><i class="fa-solid fa-circle-question text-sage-500 mt-1.5 text-xs"></i>哪些地方一定要保留人工確認？</li>
+                        <li class="flex gap-2"><i class="fa-solid fa-circle-question text-sage-500 mt-1.5 text-xs"></i>工具做出來之後，使用者真的會願意用嗎？</li>
+                    </ul>
+                    <p>因此，當我開始接觸 AI 與自動化時，我關心的不是「哪個模型最厲害」，而是這項技術放進真正的工作流程後，能不能穩定運作、有人願意使用，而且真的解決問題。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Projects -->
+        <section id="projects" class="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                    <h2 class="text-xs font-black text-sage-600 dark:text-sage-400 tracking-widest uppercase">CORE ADVANTAGES</h2>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">為什麼 15 年資深經驗，是轉型 AI PM 的巨大優勢？</p>
-                    <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-                        AI 技術再強，若不懂實際營運流程，終究難以發揮效益。我將多年「營運實務」與「最新 AI 技術」結合，提供最具落地性的專案溝通。
+                <div class="mb-10 space-y-3">
+                    <p class="eyebrow">SELECTED PROJECTS</p>
+                    <h2 class="h2">精選案例</h2>
+                </div>
+
+                <!-- Featured -->
+                <a href="作品集/my-digital-brain/" class="block card p-6 sm:p-10 mb-8 border-sage-400/70 dark:border-sage-600 hover:shadow-xl transition group">
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="chip bg-sage-600 text-white border-sage-600">Featured Project</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">AI Personal Collection &amp; Recall System</span>
+                    </div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-2">我的數位腦</h3>
+                    <p class="text-lg sm:text-xl font-bold text-sage-600 dark:text-sage-300 mb-4">讓收藏過的資訊，在真正需要時重新回來。</p>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl mb-6">
+                        從「收藏很多、之後卻找不到」的個人痛點出發，設計並完成一套從收藏、AI 整理、搜尋、模糊召回，到 Ask My Collection 的完整流程。
                     </p>
+                    <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <p class="text-xs font-black tracking-wider text-slate-400 uppercase mb-2">Role</p>
+                            <ul class="text-sm text-slate-700 dark:text-slate-200 space-y-1">
+                                <li>Product Planning</li><li>AI Integration</li><li>Development Coordination</li><li>Testing &amp; Validation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-black tracking-wider text-slate-400 uppercase mb-2">Tech</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="chip">Next.js</span><span class="chip">FastAPI</span><span class="chip">Azure OpenAI</span>
+                                <span class="chip">Supabase PostgreSQL</span><span class="chip">LINE Messaging API</span><span class="chip">Render</span>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="font-bold text-sage-600 dark:text-sage-300 group-hover:underline">查看完整 Case Study →</span>
+                </a>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="card p-6 space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">春節大量招募流程改善</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">面對大量門店、人員、體檢與錄取資料，重新拆解資訊流與作業節點，讓混亂的人工處理變成可以追蹤、核對與交接的流程。</p>
+                        <div class="flex flex-wrap gap-2 pt-1"><span class="chip">流程拆解</span><span class="chip">資料整理</span><span class="chip">跨部門協作</span><span class="chip">風險控管</span></div>
+                    </div>
+                    <div class="card p-6 space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">醫材寄庫／借貨流程改善</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">當醫材在醫院、公司與不同據點間流動，問題不只是庫存數字，還包含貨物身分、責任與帳務認列。重新整理流程、文件與追蹤方式，降低資訊落差與後續對帳困難。</p>
+                        <div class="flex flex-wrap gap-2 pt-1"><span class="chip">SOP</span><span class="chip">庫存流程</span><span class="chip">帳務邏輯</span><span class="chip">跨單位溝通</span></div>
+                    </div>
+                    <div class="card p-6 space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">業績分析與獎金試算</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">重新整理業績與獎金資料，比較不同制度對公司成本與業務激勵的影響。提出的新方案被採用，回測結果顯示獎金支出比舊制降低約四成，同時維持業績越高、獎勵越高的原則。</p>
+                        <div class="flex flex-wrap gap-2 pt-1"><span class="chip">資料分析</span><span class="chip">制度設計</span><span class="chip">情境試算</span><span class="chip">決策支援</span></div>
+                    </div>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <!-- Card 1 -->
-                    <div class="p-8 rounded-3xl bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl transition-all-custom space-y-4 hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-2xl bg-sage-600 dark:bg-sage-500 text-white flex items-center justify-center text-xl font-bold shadow-md">
-                            <i class="fa-solid fa-ear-listen"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">1. 精準聽懂商業痛點</h3>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                            擁有不動產、生技與人力派遣等複雜產業的實務第一線經歷，深知行政繁瑣、財務對帳與人資協調的真實痛點，不會只談空洞理論。
-                        </p>
-                        <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-2 pt-3 border-t border-slate-200 dark:border-slate-700">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-sage-600 dark:text-sage-400"></i> 洞察作業流程中的無效耗損</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-sage-600 dark:text-sage-400"></i> 理解跨部門溝通的立場與衝突</li>
-                        </ul>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="p-8 rounded-3xl bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl transition-all-custom space-y-4 hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-2xl bg-teal-600 dark:bg-teal-500 text-white flex items-center justify-center text-xl font-bold shadow-md">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">2. 理性看懂 AI 技術限制</h3>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                            修習專業 AI 專案管理，能判讀各類大語言模型（LLM）與自動化工具的優缺點，不盲目崇拜技術，而是務實評估工具的產出品質與邊界。
-                        </p>
-                        <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-2 pt-3 border-t border-slate-200 dark:border-slate-700">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-teal-600 dark:text-teal-400"></i> Prompt 詠唱與 Workflow 拆解</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-teal-600 dark:text-teal-400"></i> 工具評估（Cost & Performance）</li>
-                        </ul>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="p-8 rounded-3xl bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl transition-all-custom space-y-4 hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center text-xl font-bold shadow-md">
-                            <i class="fa-solid fa-puzzle-piece"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">3. 獨立解決複雜問題</h3>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                            面對模糊不清的專案情境或突發變數，能憑藉豐富實務經驗冷靜應對，主動發掘關鍵因子，將大問題拆解為可執行的階段性小任務。
-                        </p>
-                        <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-2 pt-3 border-t border-slate-200 dark:border-slate-700">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400"></i> 強大自學能力與應變力</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400"></i> 風險管控與資源整合能力</li>
-                        </ul>
-                    </div>
-
-                </div>
+                <p class="mt-8 text-sm text-slate-500 dark:text-slate-400">另有課程與個人實作練習，收錄於 <a href="作品集/" class="font-bold text-sage-600 dark:text-sage-300 underline">作品集</a>。</p>
             </div>
         </section>
 
-        <!-- Career Timeline / Industry Experience Section -->
-        <section id="experience" class="py-20 bg-slate-50 dark:bg-slate-950 transition-colors">
+        <!-- How I Work -->
+        <section id="how" class="py-16 sm:py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
-                    <h2 class="text-xs font-black text-sage-600 dark:text-sage-400 tracking-widest uppercase">EXPERIENCE & TRACK RECORD</h2>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">15年跨產業經驗，構築堅實敏捷底蘊</p>
-                    <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-                        從高壓複雜的行政會計到人資管理，每一段歷練都是 AI 落地轉譯的養分。
-                    </p>
+                <div class="mb-10 space-y-3">
+                    <p class="eyebrow">HOW I WORK</p>
+                    <h2 class="h2">我習慣用五個步驟處理問題</h2>
                 </div>
-
-                <!-- Interactive Filter Tabs -->
-                <div class="flex justify-center gap-2 mb-10 overflow-x-auto pb-2">
-                    <button onclick="filterTab('all')" class="tab-btn active px-4 py-2 rounded-xl text-sm font-bold transition-all bg-sage-600 text-white shadow-sm" data-tab="all">全部歷練</button>
-                    <button onclick="filterTab('realestate')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-tab="realestate">不動產領域</button>
-                    <button onclick="filterTab('biotech')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-tab="biotech">生技產業</button>
-                    <button onclick="filterTab('manpower')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-tab="manpower">人力派遣</button>
-                    <button onclick="filterTab('aipm')" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-tab="aipm">AI 專案管理轉型</button>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="card p-5"><p class="step-no">01</p><h3 class="font-bold mb-1">先做熟</h3><p class="text-sm text-slate-600 dark:text-slate-300">實際跑過流程，理解每一步為什麼存在。</p></div>
+                    <div class="card p-5"><p class="step-no">02</p><h3 class="font-bold mb-1">找改善點</h3><p class="text-sm text-slate-600 dark:text-slate-300">判斷問題來自流程、資料、溝通、工具，還是制度。</p></div>
+                    <div class="card p-5"><p class="step-no">03</p><h3 class="font-bold mb-1">預想風險</h3><p class="text-sm text-slate-600 dark:text-slate-300">先確認誰會被影響、哪裡可能出錯、哪些環節不能全自動。</p></div>
+                    <div class="card p-5"><p class="step-no">04</p><h3 class="font-bold mb-1">先試一版</h3><p class="text-sm text-slate-600 dark:text-slate-300">先完成可以驗證的最小版本，而不是一次追求完整。</p></div>
+                    <div class="card p-5"><p class="step-no">05</p><h3 class="font-bold mb-1">持續優化</h3><p class="text-sm text-slate-600 dark:text-slate-300">實際使用、收集問題，再回頭修正。</p></div>
                 </div>
-
-                <!-- Timeline Container -->
-                <div class="space-y-6 max-w-4xl mx-auto">
-
-                    <!-- Timeline Item 1: AI PM Transformation -->
-                    <div class="timeline-item aipm bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-6 items-start transition">
-                        <div class="md:w-1/4 shrink-0">
-                            <span class="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-black rounded-full mb-2 border border-emerald-200 dark:border-emerald-800">現正進修 / 轉型中</span>
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">AI 專案管理師</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">AI Project Management</p>
-                        </div>
-                        <div class="md:w-3/4 space-y-3">
-                            <p class="text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                                專注研究大型語言模型（LLM）業務應用、Prompt Engineering 提示詞工程、自動化工作流架構設計，以及如何協助企業低成本導入 AI 工具提升營運效能。
-                            </p>
-                            <div class="flex flex-wrap gap-2 text-xs font-semibold text-sage-700 dark:text-sage-300">
-                                <span class="bg-sage-50 dark:bg-slate-800 px-3 py-1 rounded-lg border border-sage-200 dark:border-slate-700">#AI工作流設計</span>
-                                <span class="bg-sage-50 dark:bg-slate-800 px-3 py-1 rounded-lg border border-sage-200 dark:border-slate-700">#跨領域溝通</span>
-                                <span class="bg-sage-50 dark:bg-slate-800 px-3 py-1 rounded-lg border border-sage-200 dark:border-slate-700">#需求訪談轉譯</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Item 2: Multi-Industry Expertise -->
-                    <div class="timeline-item realestate biotech manpower bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-6 items-start transition">
-                        <div class="md:w-1/4 shrink-0">
-                            <span class="inline-block px-3 py-1 bg-sage-100 dark:bg-sage-950 text-sage-800 dark:text-sage-300 text-xs font-black rounded-full mb-2 border border-sage-200 dark:border-sage-800">15 年實務歷練</span>
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">行政 / 會計 / 人資主管與實務專員</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Operational Leadership</p>
-                        </div>
-                        <div class="md:w-3/4 space-y-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                                    <div class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1"><i class="fa-solid fa-building text-sage-600 dark:text-sage-400 mr-1.5"></i>不動產產業</div>
-                                    <p class="text-xs text-slate-600 dark:text-slate-400">複雜合約條款梳理、跨單位流程控管、高精準度財務帳務核算。</p>
-                                </div>
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                                    <div class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1"><i class="fa-solid fa-flask text-teal-600 dark:text-teal-400 mr-1.5"></i>生技產業</div>
-                                    <p class="text-xs text-slate-600 dark:text-slate-400">合規行政管理、跨專業技術團隊溝通協調、精細檔案制度建置。</p>
-                                </div>
-                                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                                    <div class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1"><i class="fa-solid fa-users text-emerald-600 dark:text-emerald-400 mr-1.5"></i>人力派遣產業</div>
-                                    <p class="text-xs text-slate-600 dark:text-slate-400">大規模人員薪酬結算、高彈性調度問題解決、顧客溝通與滿意度維護。</p>
-                                </div>
-                            </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                                ✨ <span class="font-bold text-slate-700 dark:text-slate-200">核心累積：</span>極佳的細心度、數字敏感度與組織溝通能力，習慣在資源有限的情況下獨立突破瓶頸，解決複雜難題。
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
+                <p class="mt-8 text-center font-bold text-sage-700 dark:text-sage-300">不是一次做對，而是讓系統持續變得更好。</p>
             </div>
         </section>
 
-        <!-- Tools & Technologies Stack Section -->
-        <section id="tools" class="py-20 bg-white dark:bg-slate-900 transition-colors">
+        <!-- AI Project Thinking -->
+        <section id="thinking" class="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <div>
+                    <div class="mb-10 space-y-3">
+                        <p class="eyebrow">AI PROJECT THINKING</p>
+                        <h2 class="h2">能用規則穩定解決的，就不一定要交給 AI</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="card p-6">
+                            <p class="text-xs font-black tracking-wider text-sage-600 dark:text-sage-300 uppercase mb-3">適合交給 AI</p>
+                            <ul class="space-y-2 text-slate-700 dark:text-slate-200"><li>分類</li><li>摘要</li><li>語意理解</li><li>非結構化資料整理</li><li>問答與內容生成</li></ul>
+                        </div>
+                        <div class="card p-6">
+                            <p class="text-xs font-black tracking-wider text-slate-500 dark:text-slate-400 uppercase mb-3">適合用規則處理</p>
+                            <ul class="space-y-2 text-slate-700 dark:text-slate-200"><li>權限</li><li>資料範圍</li><li>驗證</li><li>流程狀態</li><li>排序與檢索</li><li>敏感資料處理</li><li>重要決策確認</li></ul>
+                        </div>
+                    </div>
+                    <p class="mt-8 text-center text-slate-600 dark:text-slate-300">真正的 AI 導入，不只是模型能不能回答，<br class="hidden sm:inline"/>而是整個流程能不能被信任與使用。</p>
+                </div>
+
+                <div>
+                    <div class="mb-10 space-y-3">
+                        <p class="eyebrow">FROM PROTOTYPE TO ADOPTION</p>
+                        <h2 class="h2">從做出來，到真正導入</h2>
+                    </div>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="card p-5"><h3 class="font-bold mb-2">權限與個資</h3><p class="text-sm text-slate-600 dark:text-slate-300">誰可以看到什麼資料？哪些資訊不能直接送進 AI？</p></div>
+                        <div class="card p-5"><h3 class="font-bold mb-2">人工確認</h3><p class="text-sm text-slate-600 dark:text-slate-300">哪些錯誤可以接受？哪些結果一定要由人確認？</p></div>
+                        <div class="card p-5"><h3 class="font-bold mb-2">既有系統整合</h3><p class="text-sm text-slate-600 dark:text-slate-300">新的工具如何接回公司原本的報表、流程與資料格式？</p></div>
+                        <div class="card p-5"><h3 class="font-bold mb-2">使用者願不願意用</h3><p class="text-sm text-slate-600 dark:text-slate-300">再好的工具，如果增加工作負擔，最後仍然不會成功。</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience" class="py-16 sm:py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                    <h2 class="text-xs font-black text-sage-600 dark:text-sage-400 tracking-widest uppercase">TOOLKIT & AI STACK</h2>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">數位工具與 AI 生態系掌控力</p>
-                    <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-                        靈活組合新世代 AI 工具與傳統辦公軟體，打造高效率的專案管理與知識庫體系。
-                    </p>
+                <div class="mb-10 space-y-3">
+                    <p class="eyebrow">EXPERIENCE</p>
+                    <h2 class="h2">十多年跨產業營運經驗</h2>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- AI LLMs & Intelligence -->
-                    <div class="p-6 rounded-3xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-4 hover:shadow-lg transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-500 text-white flex items-center justify-center font-bold shadow-md">
-                                <i class="fa-solid fa-robot text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800 dark:text-slate-100 text-base">Generative AI & LLMs</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">生成式 AI 模型與輔助開發</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2 pt-2">
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">ChatGPT</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Claude</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Gemini</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Codex</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">NotebookLM</span>
-                        </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            能撰寫高效 Prompt、快速萃取長文件重點、進行數據分析與輔助程式碼邏輯理解。
-                        </p>
-                    </div>
-
-                    <!-- Workflow & Knowledge Management -->
-                    <div class="p-6 rounded-3xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-4 hover:shadow-lg transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-500 to-cyan-500 text-white flex items-center justify-center font-bold shadow-md">
-                                <i class="fa-solid fa-folder-tree text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800 dark:text-slate-100 text-base">Knowledge & Systems</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">知識庫與營運系統管理</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2 pt-2">
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Notion</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Google Workspace</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Office Suite</span>
-                        </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            建立跨部門專案儀表板、知識庫 SOP 構建，確保資訊通透度與流程標準化。
-                        </p>
-                    </div>
-
-                    <!-- Visual Communication -->
-                    <div class="p-6 rounded-3xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 space-y-4 md:col-span-2 lg:col-span-1 hover:shadow-lg transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-500 text-white flex items-center justify-center font-bold shadow-md">
-                                <i class="fa-solid fa-palette text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800 dark:text-slate-100 text-base">Visual & Presentation</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">視覺溝通與簡報轉譯</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2 pt-2">
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Canva</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">Google Slides</span>
-                            <span class="px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold shadow-sm border border-slate-200 dark:border-slate-700">PowerPoint</span>
-                        </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                            將複雜技術與業務邏輯，轉化為直覺、高視覺質感的提案簡報與流程圖。
-                        </p>
-                    </div>
-
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="card p-6"><h3 class="font-bold mb-2"><i class="fa-solid fa-building text-sage-600 dark:text-sage-300 mr-2"></i>行政與營運</h3><p class="text-sm text-slate-600 dark:text-slate-300">流程管理、SOP、跨部門協調、公司行政與外部窗口。</p></div>
+                    <div class="card p-6"><h3 class="font-bold mb-2"><i class="fa-solid fa-table text-sage-600 dark:text-sage-300 mr-2"></i>會計與資料</h3><p class="text-sm text-slate-600 dark:text-slate-300">帳務對照、營運報表、業績分析、Power Query 與資料整合。</p></div>
+                    <div class="card p-6"><h3 class="font-bold mb-2"><i class="fa-solid fa-users text-sage-600 dark:text-sage-300 mr-2"></i>人資與專案</h3><p class="text-sm text-slate-600 dark:text-slate-300">招募、報到、派遣、人員管理與大量資料流程。</p></div>
+                    <div class="card p-6"><h3 class="font-bold mb-2"><i class="fa-solid fa-flask text-sage-600 dark:text-sage-300 mr-2"></i>生技醫材</h3><p class="text-sm text-slate-600 dark:text-slate-300">合約、保險、智財、庫存、寄庫與借貨流程。</p></div>
                 </div>
-
+                <p class="mt-8 text-center text-slate-600 dark:text-slate-300 leading-relaxed">這些經驗讓我在評估 AI 或數位工具時，<br class="hidden sm:inline"/>不只看「功能能不能做」，也會看它實際進入工作現場之後會發生什麼事。</p>
             </div>
         </section>
 
-        <!-- Interactive Scenario & Solution Matcher Section -->
-        <section id="solutions" class="py-20 bg-gradient-to-b from-slate-50 to-sage-50/40 dark:from-slate-950 dark:to-slate-900 border-t border-slate-200/60 dark:border-slate-800 transition-colors">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
-                    <h2 class="text-xs font-black text-sage-600 dark:text-sage-400 tracking-widest uppercase">INTERACTIVE PROBLEM SOLVER</h2>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">點擊您的企業情境，查看轉譯最適解</p>
-                    <p class="text-slate-600 dark:text-slate-400 text-sm">
-                        展示如何結合 15 年行政財務經驗與 AI 工具，解決常見的企業跨部門痛點。
-                    </p>
+        <!-- Tools & Capability -->
+        <section id="tools" class="py-16 sm:py-20 bg-slate-50 dark:bg-slate-950">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 space-y-3">
+                    <p class="eyebrow">TOOLS &amp; CAPABILITY</p>
+                    <h2 class="h2">Tools &amp; Capability</h2>
                 </div>
-
-                <!-- Scenario Selector Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <button onclick="showScenario(1)" id="sc-btn-1" class="scenario-btn active p-5 rounded-2xl bg-white dark:bg-slate-900 border-2 border-sage-600 shadow-md text-left hover:border-sage-600 transition transform hover:-translate-y-0.5">
-                        <div class="text-sage-600 dark:text-sage-400 font-bold text-sm mb-1"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i>痛點一</div>
-                        <div class="text-slate-800 dark:text-slate-100 font-bold text-base">技術 team 與業務 team 溝通各說各話？</div>
-                    </button>
-                    
-                    <button onclick="showScenario(2)" id="sc-btn-2" class="scenario-btn p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-left hover:border-sage-400 transition transform hover:-translate-y-0.5">
-                        <div class="text-slate-500 dark:text-slate-400 font-bold text-sm mb-1"><i class="fa-solid fa-file-invoice mr-1.5"></i>痛點二</div>
-                        <div class="text-slate-800 dark:text-slate-100 font-bold text-base">行政財務人工流程繁瑣，耗時易錯？</div>
-                    </button>
-
-                    <button onclick="showScenario(3)" id="sc-btn-3" class="scenario-btn p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-left hover:border-sage-400 transition transform hover:-translate-y-0.5">
-                        <div class="text-slate-500 dark:text-slate-400 font-bold text-sm mb-1"><i class="fa-solid fa-lightbulb mr-1.5"></i>痛點三</div>
-                        <div class="text-slate-800 dark:text-slate-100 font-bold text-base">想引進 AI 工具，卻不知如何落地？</div>
-                    </button>
-                </div>
-
-                <!-- Dynamic Solution Box -->
-                <div id="scenario-content" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-200/80 dark:border-slate-800 transition-all">
-                    <!-- Default Scenario 1 Content -->
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                            <span class="w-8 h-8 rounded-full bg-sage-100 dark:bg-sage-950 text-sage-700 dark:text-sage-300 flex items-center justify-center font-black text-sm">解</span>
-                            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">最適解：需求雙向精準轉譯與規格收斂</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                            <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-2">
-                                <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase">Step 1. 業務需求語譯</span>
-                                <p class="text-slate-700 dark:text-slate-300 font-medium">使用 Notion / NotebookLM 整理訪談逐字稿，發掘真正關鍵指標（KPI），移除含糊用語。</p>
-                            </div>
-                            <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-2">
-                                <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase">Step 2. 技術可行性轉發</span>
-                                <p class="text-slate-700 dark:text-slate-300 font-medium">運用 ChatGPT/Claude 將工程邏輯轉化為老闆與業務看得懂的流程圖（Canva）與進度里程碑。</p>
-                            </div>
-                        </div>
-                        <div class="p-4 bg-emerald-50 dark:bg-emerald-950/50 rounded-2xl text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-bold flex items-center gap-3 border border-emerald-200 dark:border-emerald-800">
-                            <i class="fa-solid fa-circle-check text-emerald-600 text-lg shrink-0"></i>
-                            <span>成果：降低跨部門對齊成本 40% 以上，確保專案範疇（Scope）不無限飄移。</span>
-                        </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-3">Product &amp; Project</h3>
+                        <div class="flex flex-wrap gap-2"><span class="chip">需求拆解</span><span class="chip">流程設計</span><span class="chip">MVP Scope</span><span class="chip">測試與驗收</span><span class="chip">跨部門溝通</span><span class="chip">AI Coding Agent 協作</span></div>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-3">AI &amp; Automation</h3>
+                        <div class="flex flex-wrap gap-2"><span class="chip">ChatGPT</span><span class="chip">Claude</span><span class="chip">Gemini</span><span class="chip">Azure OpenAI</span><span class="chip">n8n</span><span class="chip">Make</span><span class="chip">Power Automate</span><span class="chip">Google Apps Script</span></div>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-3">Data</h3>
+                        <div class="flex flex-wrap gap-2"><span class="chip">Excel</span><span class="chip">Power Query</span><span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">SQL</span></div>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-3">Product Delivery</h3>
+                        <div class="flex flex-wrap gap-2"><span class="chip">GitHub</span><span class="chip">Git / Pull Request</span><span class="chip">Render</span><span class="chip">Supabase</span><span class="chip">Next.js</span><span class="chip">FastAPI</span></div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- Contact & Action Section -->
-        <section id="contact" class="py-20 bg-white dark:bg-slate-900 transition-colors">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="bg-gradient-to-br from-sage-800 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-                    <div class="relative z-10 text-center space-y-6">
-                        <!-- Profile Thumbnail Header -->
-                        <div class="flex justify-center">
-                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-teal-300/80 shadow-xl ring-4 ring-white/10">
-                                <img src="https://img.ai365.fans/cdn-cgi/image/width=1400,quality=90,format=auto/artworks/c55ead95-64c9-4a35-824b-651a15ee1c81/zbvzpyqc5vc.png" 
-                                     alt="Mia Wang 王俞文" 
-                                     class="w-full h-full object-cover object-center"
-                                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/4e7167/ffffff?text=Mia+Wang';">
-                            </div>
-                        </div>
-
-                        <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sage-200 text-xs font-bold inline-block backdrop-blur-md">
-                            Let's Connect & Innovate
-                        </span>
-
-                        <h2 class="text-2xl sm:text-4xl font-black tracking-tight">
-                            尋找能串接業務與技術的 AI 專案管理師？
-                        </h2>
-
-                        <p class="text-sage-200 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
-                            不論是 AI 專案管理、流程導入評估，或是跨部門專案協調，歡迎隨時與我聯繫，共同打造最適解決方案。
-                        </p>
-
-                        <!-- Contact Info Card Grid -->
-                        <div class="pt-6 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">
-                            <!-- Email Button -->
-                            <button onclick="copyToClipboard('your.email@example.com', this)" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3.5 rounded-xl transition flex items-center justify-center gap-3 backdrop-blur-md">
-                                <i class="fa-regular fa-envelope text-teal-300"></i>
-                                <span id="emailText">your.email@example.com</span>
-                                <i class="fa-regular fa-copy text-xs opacity-70"></i>
-                            </button>
-
-                            <!-- Personal Google Site Link -->
-                            <a href="https://sites.google.com/view/wang-yu-wen/%E9%A6%96%E9%A0%81" target="_blank" rel="noopener" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3.5 rounded-xl transition flex items-center justify-center gap-2 backdrop-blur-md hover:scale-105">
-                                <i class="fa-solid fa-globe text-teal-300 text-lg"></i>
-                                <span>個人網站 (Google Site)</span>
-                            </a>
-
-                            <!-- LinkedIn Link -->
-                            <a href="https://www.linkedin.com/in/mia-wang-7a42b9342" target="_blank" rel="noopener" class="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg hover:scale-105">
-                                <i class="fa-brands fa-linkedin text-lg"></i>
-                                <span>LinkedIn 檔案</span>
-                            </a>
-                        </div>
-
-                        <!-- Notice toast -->
-                        <div id="toast" class="hidden text-xs text-amber-300 font-bold pt-2">
-                            ✓ 已複製信箱地址至剪貼簿！
-                        </div>
-
+        <!-- Contact -->
+        <section id="contact" class="py-16 sm:py-20 bg-white dark:bg-slate-900">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="rounded-3xl bg-sage-800 dark:bg-slate-800 p-8 sm:p-12 text-white text-center space-y-6 shadow-xl">
+                    <h2 class="text-2xl sm:text-3xl font-black">我看得到問題，也知道哪裡該用 AI</h2>
+                    <div class="text-sage-100 leading-relaxed space-y-3">
+                        <p>我希望下一份工作，不只是操作 AI 工具。</p>
+                        <p>而是能參與真正的：</p>
+                        <p class="font-bold text-white">需求理解 → 流程設計 → AI 導入 → 驗證 → 使用者落地</p>
+                        <p>把技術變成能真正被企業使用的方案。</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                        <a href="https://www.linkedin.com/in/mia-wang-7a42b9342" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-white text-sage-800 font-bold px-6 py-3 rounded-xl hover:bg-sage-50 transition"><i class="fa-brands fa-linkedin text-lg"></i> LinkedIn</a>
+                        <a href="https://github.com/witch6996-commits" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 border border-white/40 text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition"><i class="fa-brands fa-github text-lg"></i> GitHub</a>
                     </div>
                 </div>
-
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="py-8 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/80 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors">
+    <footer class="py-8 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/80 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
         <div class="max-w-6xl mx-auto px-4 space-y-3">
-            <!-- Social Link Icons -->
             <div class="flex justify-center items-center space-x-5 text-lg text-slate-600 dark:text-slate-400">
-                <a href="https://sites.google.com/view/wang-yu-wen/%E9%A6%96%E9%A0%81" target="_blank" rel="noopener" class="hover:text-sage-600 dark:hover:text-sage-400 transition" title="個人網站 (Google Site)">
-                    <i class="fa-solid fa-globe"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/mia-wang-7a42b9342" target="_blank" rel="noopener" class="hover:text-sage-600 dark:hover:text-sage-400 transition" title="LinkedIn">
-                    <i class="fa-brands fa-linkedin"></i>
-                </a>
+                <a href="https://github.com/witch6996-commits" target="_blank" rel="noopener" class="hover:text-sage-600 dark:hover:text-sage-400 transition" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/mia-wang-7a42b9342" target="_blank" rel="noopener" class="hover:text-sage-600 dark:hover:text-sage-400 transition" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://sites.google.com/view/wang-yu-wen/%E9%A6%96%E9%A0%81" target="_blank" rel="noopener" class="hover:text-sage-600 dark:hover:text-sage-400 transition" title="個人網站 (Google Site)"><i class="fa-solid fa-globe"></i></a>
             </div>
-            <p>© <span id="year"></span> AI Project Manager. 15 Years Operational Experience & AI Integration.</p>
-            <p class="mt-1 text-slate-400 dark:text-slate-500">清新活潑一頁式個人品牌網站</p>
+            <p>© <span id="year"></span> Mia Wang｜AI Project Manager</p>
         </div>
     </footer>
 
@@ -772,113 +558,6 @@
                 mobileMenu.classList.add('hidden');
             });
         });
-
-        // Timeline Category Filter logic
-        function filterTab(category) {
-            // Update Tab Button styles
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.dataset.tab === category) {
-                    btn.className = "tab-btn active px-4 py-2 rounded-xl text-sm font-bold transition-all bg-sage-600 text-white shadow-sm";
-                } else {
-                    btn.className = "tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700";
-                }
-            });
-
-            // Show / Hide timeline items
-            const items = document.querySelectorAll('.timeline-item');
-            items.forEach(item => {
-                if (category === 'all' || item.classList.contains(category)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // Scenario Interactive Matcher Data & Function
-        const scenarios = {
-            1: {
-                title: "最適解：需求雙向精準轉譯與規格收斂",
-                step1Title: "Step 1. 業務需求語譯",
-                step1Desc: "使用 Notion / NotebookLM 整理訪談紀錄，發掘真正關鍵指標（KPI），移除模糊的業務溝通口頭習慣。",
-                step2Title: "Step 2. 技術可行性轉發",
-                step2Desc: "運用 ChatGPT/Claude 將工程邏輯轉化為老闆與業務看得懂的流程圖（Canva）與進度里程碑。",
-                result: "成果：降低跨部門對齊成本 40% 以上，確保專案範疇（Scope）不無限飄移。"
-            },
-            2: {
-                title: "最適解：15年行政財務邏輯 + AI 自動化工作流",
-                step1Title: "Step 1. 實務流程診斷",
-                step1Desc: "以過去在不動產與人力派遣結算薪酬的經驗，鎖定最耗時且高重複性的表單與對帳節點。",
-                step2Title: "Step 2. AI & Spreadsheet 賦能",
-                step2Desc: "結合 Office/Google Workspace 函數與 LLM 輔助數據比對，降低人工審核風險與時間支出。",
-                result: "成果：提升 60% 以上的行政對帳效率，建立標準化可重用的 SOP 工作流。"
-            },
-            3: {
-                title: "最適解：小步快跑（PoC）敏捷導入策略",
-                step1Title: "Step 1. 工具適配度評估",
-                step1Desc: "評估 ChatGPT/Claude/Gemini/NotebookLM 等工具特色，針對團隊現有痛點選擇最佳 C/P 值工具組合。",
-                step2Title: "Step 2. Prompt 與團隊培訓",
-                step2Desc: "撰寫專屬業務場景的 Prompt 模板庫，引導團隊無痛上手，降低對新科技的抗拒感。",
-                result: "成果：讓 AI 成為實質的生產力助手，而非停留在口號階段。"
-            }
-        };
-
-        function showScenario(id) {
-            // Update button styles
-            for (let i = 1; i <= 3; i++) {
-                const btn = document.getElementById(`sc-btn-${i}`);
-                if (i === id) {
-                    btn.className = "scenario-btn active p-5 rounded-2xl bg-white dark:bg-slate-900 border-2 border-sage-600 shadow-md text-left hover:border-sage-600 transition transform hover:-translate-y-0.5";
-                    btn.querySelector('div').className = "text-sage-600 dark:text-sage-400 font-bold text-sm mb-1";
-                } else {
-                    btn.className = "scenario-btn p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-left hover:border-sage-400 transition transform hover:-translate-y-0.5";
-                    btn.querySelector('div').className = "text-slate-500 dark:text-slate-400 font-bold text-sm mb-1";
-                }
-            }
-
-            // Update content
-            const sc = scenarios[id];
-            const contentBox = document.getElementById('scenario-content');
-            contentBox.innerHTML = `
-                <div class="space-y-6">
-                    <div class="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                        <span class="w-8 h-8 rounded-full bg-sage-100 dark:bg-sage-950 text-sage-700 dark:text-sage-300 flex items-center justify-center font-black text-sm">解</span>
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${sc.title}</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                        <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-2">
-                            <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase">${sc.step1Title}</span>
-                            <p class="text-slate-700 dark:text-slate-300 font-medium">${sc.step1Desc}</p>
-                        </div>
-                        <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-2">
-                            <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase">${sc.step2Title}</span>
-                            <p class="text-slate-700 dark:text-slate-300 font-medium">${sc.step2Desc}</p>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-emerald-50 dark:bg-emerald-950/50 rounded-2xl text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-bold flex items-center gap-3 border border-emerald-200 dark:border-emerald-800">
-                        <i class="fa-solid fa-circle-check text-emerald-600 text-lg shrink-0"></i>
-                        <span>${sc.result}</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Copy to clipboard helper function
-        function copyToClipboard(text, btnElement) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-
-            // Show Toast Notification
-            const toast = document.getElementById('toast');
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
     </script>
 </body>
 </html>

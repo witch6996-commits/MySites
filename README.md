@@ -1,80 +1,64 @@
-# MySites｜課程練習作品集
+# Mia Wang｜AI Project Manager Portfolio
 
-這個 Repository 用來整理與展示職訓／課程期間完成的網頁練習作品。
+這個 Repository 是 Mia Wang（王俞文）的正式個人 Portfolio Website，定位為 AI Project Manager・AI 導入與流程改善。
 
-目前內容以 HTML、JavaScript 與前端 CDN 工具製作為主，部分作品包含資料視覺化、Excel／CSV 解析、瀏覽器本地端運算與互動式網頁功能。
-
-> 本 Repository 主要作為**課程練習與學習紀錄**，並非正式商業產品。作品內容、資料與功能以課堂實作、技術練習及概念驗證為目的。
-
-## 線上展示
-
-網站透過 GitHub 連接 Netlify 自動部署：
+## 線上網站
 
 - Netlify：https://wangsites.netlify.app/
 - GitHub Pages：https://witch6996-commits.github.io/MySites/
-- 作品集頁：`/作品集/`
 
 GitHub `main` 分支更新後，Netlify 會自動重新部署最新版本。
 
-## 目前作品
+## 網站內容
 
-### 本地端個資假名化工具
+### 首頁（`index.html`）
 
-瀏覽器端個資假名化與對照管理練習，支援 Excel／CSV 檔案處理，並使用 SheetJS、CryptoJS、Tailwind CSS 等前端工具。
+Hero、工作方式、精選案例（Selected Projects）、How I Work、AI Project Thinking、Experience、Tools & Capability 與聯絡方式。
 
-### 商業進銷存與收支財務分析系統
+### Featured Case Study：我的數位腦
 
-以進銷存與財務資料為主題的視覺化分析練習，使用 SheetJS 讀取資料、ECharts 製作圖表，並以瀏覽器本地端方式執行。
+`/作品集/my-digital-brain/`
 
-### 智能財務現金流量分析儀
+AI Personal Collection & Recall System 的完整產品案例：從收藏、AI 整理、搜尋、模糊召回到 Ask My Collection。內容包含問題定義、產品流程、我的角色、AI 與 deterministic logic 的責任邊界、產品取捨與驗證方式。
 
-現金流量資料分析與 Dashboard 介面練習，使用 SheetJS、Apache ECharts、Tailwind CSS 等工具呈現財務資訊與比較結果。
+Demo 影片置於 `作品集/my-digital-brain/media/my-digital-brain-demo-v1.mp4`。
 
-### 台灣旅遊景點互動地圖
+### 其他作品（`/作品集/`）
 
-以互動地圖瀏覽台灣旅遊景點的前端練習。
+`/作品集/` 內保留其他課程與個人實作頁面：
 
-### 每日一句學英語
+- 個資假名化工具
+- 商業進銷存與收支財務分析系統
+- 智能財務現金流量分析儀
+- 台灣旅遊景點互動地圖
+- 每日一句學英語
 
-互動式英語學習頁面練習，包含每日句型、情境應用、語音功能、練習測驗與 Chart.js 學習分析圖表。
+其中部分頁面為課程與個人實作，示範資料皆為虛構。
 
 ## Repository 結構
 
 ```text
 MySites/
-├── index.html        # 個人／作品入口首頁
-├── 作品集/           # 課程練習作品（index.html 為作品集首頁）
-├── PIC/              # 網頁圖片素材
-├── Music/            # 網頁音訊素材
+├── index.html                     # Portfolio 首頁
+├── 作品集/
+│   ├── index.html                 # 其他作品入口
+│   ├── my-digital-brain/          # Featured Case Study
+│   │   ├── index.html
+│   │   └── media/                 # Demo 影片
+│   └── *.html                     # 其他課程與個人實作
+├── PIC/                           # 圖片素材
+├── Music/                         # 音訊素材
 └── README.md
 ```
 
-## 使用技術
+## 技術結構
 
-依不同練習作品使用：
+純靜態網站，不使用 build system 或 framework：
 
-- HTML5
-- CSS / Tailwind CSS
-- JavaScript
-- SheetJS
-- Apache ECharts
-- Chart.js
-- CryptoJS
-- Lucide Icons / Font Awesome
-- GitHub
-- Netlify
+- HTML5 / JavaScript
+- Tailwind CSS（CDN）、Font Awesome、Google Fonts
+- 其他作品視頁面使用 SheetJS、Apache ECharts、Chart.js、CryptoJS 等前端套件
 
-## 學習目的
+## 部署
 
-此 Repository 用於記錄從網頁製作、資料呈現到 GitHub 與 Netlify 部署流程的實作過程，包括：
-
-- HTML 網頁建立與互動功能設計
-- 前端套件與 CDN 整合
-- Excel／CSV 資料讀取與視覺化
-- 瀏覽器本地端資料處理
-- GitHub Repository 與版本更新
-- GitHub → Netlify 自動部署流程
-
----
-
-**註：** 本專案內容屬課程練習作品，主要用於學習紀錄與成果展示。
+GitHub → Netlify 自動部署（靜態檔案，無 build 步驟）。
