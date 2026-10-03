@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的數位腦｜AI Personal Collection & Recall System｜Mia Wang</title>
+    <meta name="description" content="「我的數位腦」Case Study：從收藏、AI 整理、搜尋、模糊召回到 Ask My Collection，讓收藏過的資訊在真正需要時重新回來。Mia Wang 的 AI 產品案例。">
+    <script>
+        // Apply saved/system theme before paint (shares the homepage's 'theme' key)
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: {
+                colors: { sage: { 50:'#f4f7f6', 100:'#e3ebe8', 200:'#c7d7d2', 300:'#a3bdb5', 400:'#81a399', 500:'#678d82', 600:'#4e7167', 700:'#405c54', 800:'#364c46', 900:'#2f403c' } },
+                fontFamily: { sans: ['Inter','Noto Sans TC','sans-serif'] }
+            } }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .eyebrow { @apply text-xs font-black tracking-widest text-sage-600 dark:text-sage-400 uppercase; }
+            .h2 { @apply text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-snug; }
+            .h3 { @apply text-lg font-bold text-slate-900 dark:text-white; }
+            .card { @apply rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6; }
+            .chip { @apply inline-block px-3 py-1 rounded-full text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200; }
+            .lead { @apply text-slate-600 dark:text-slate-300 leading-relaxed; }
+            .hl { @apply rounded-2xl border-l-4 border-sage-500 bg-sage-50 dark:bg-slate-800/70 px-5 py-4 font-bold text-sage-800 dark:text-sage-200 leading-relaxed; }
+            .sec { @apply py-14 sm:py-20; }
+            .wrap { @apply max-w-5xl mx-auto px-4 sm:px-6; }
+            .flow { @apply flex flex-wrap items-center gap-2 text-sm font-semibold; }
+            .flow > span { @apply px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700; }
+            .flow > i { @apply text-sage-500 text-xs; }
+            .btn-primary { @apply inline-flex items-center justify-center gap-2 bg-sage-600 hover:bg-sage-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition; }
+            .btn-ghost { @apply inline-flex items-center justify-center gap-2 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-bold px-5 py-2.5 rounded-xl transition; }
+        }
+        body { background-color: #f8faf9; }
+        .dark body { background-color: #0f172a; color: #f1f5f9; }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-800 dark:text-slate-100">
+
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur sticky top-0 z-10">
+        <div class="wrap h-16 flex items-center justify-between">
+            <a href="../../" class="text-sm font-bold text-sage-600 dark:text-sage-400 hover:text-sage-700"><i class="fa-solid fa-arrow-left text-xs mr-1"></i> Portfolio</a>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Mia Wang｜王俞文</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="sec bg-gradient-to-b from-sage-50 to-white dark:from-slate-950 dark:to-slate-900">
+            <div class="wrap space-y-6">
+                <p class="eyebrow">AI PRODUCT CASE STUDY</p>
+                <h1 class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">我的數位腦</h1>
+                <p class="text-lg font-semibold text-slate-500 dark:text-slate-400">AI Personal Collection &amp; Recall System</p>
+                <p class="text-2xl sm:text-3xl font-black text-sage-600 dark:text-sage-300 leading-snug">讓收藏過的資訊<br/>在真正需要時重新回來</p>
+                <div class="lead max-w-2xl space-y-4">
+                    <p>我們每天收藏文章、影片、網址與地點。</p>
+                    <p>但時間久了，真正遇到問題時，常常只剩下一個模糊印象：</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">「我以前是不是看過一篇講這個的文章？」</p>
+                    <p>真正的問題不是沒有地方收藏。</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">而是：收藏之後，還能不能被重新找到與利用？</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap">
+                <p class="eyebrow mb-6">PROJECT OVERVIEW</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card"><p class="eyebrow mb-2">Type</p><p class="font-semibold">Personal Product / AI Portfolio Project</p></div>
+                    <div class="card"><p class="eyebrow mb-2">My Role</p><ul class="text-sm space-y-1 font-semibold"><li>Product Planning</li><li>AI Integration</li><li>Development Coordination</li><li>Validation</li></ul></div>
+                    <div class="card"><p class="eyebrow mb-2">Status</p><p class="font-semibold">MVP → Staging → Live Acceptance</p></div>
+                    <div class="card"><p class="eyebrow mb-2">Core Stack</p><div class="flex flex-wrap gap-2"><span class="chip">Next.js</span><span class="chip">FastAPI</span><span class="chip">Azure OpenAI</span><span class="chip">Supabase PostgreSQL</span></div></div>
+                    <div class="card sm:col-span-2"><p class="eyebrow mb-2">Integration</p><div class="flex flex-wrap gap-2"><span class="chip">LINE Messaging API</span><span class="chip">Leaflet</span><span class="chip">OpenStreetMap</span><span class="chip">Google Routes API</span><span class="chip">Render</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo -->
+        <section id="demo" class="sec">
+            <div class="wrap space-y-5">
+                <p class="eyebrow">See It in Action</p>
+                <h2 class="h2">4 分鐘看懂「我的數位腦」</h2>
+                <p class="lead max-w-2xl">從收藏一篇文章開始，到 AI 自動整理內容，再用模糊的記憶線索重新找回過去的收藏。</p>
+                <div id="demoBox">
+                    <video id="demoVideo" class="w-full h-auto max-w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-black" controls preload="metadata" playsinline>
+                        <source src="media/my-digital-brain-demo-v1.mp4" type="video/mp4">
+                        您的瀏覽器不支援影片播放。
+                    </video>
+                </div>
+                <p id="demoMissing" class="hidden card text-sm lead"><i class="fa-solid fa-film mr-2"></i>Demo 影片準備中，上線後將顯示於此。</p>
+            </div>
+        </section>
+
+        <!-- Problem -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">PROBLEM</p><h2 class="h2">收藏很容易，重新找到很難</h2></div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="card"><h3 class="h3 mb-2">資料散落</h3><p class="lead text-sm">文章、影片、LINE、地點存在不同地方。</p></div>
+                    <div class="card"><h3 class="h3 mb-2">收藏後沒有整理</h3><p class="lead text-sm">當下覺得重要，但沒有時間重新分類與摘要。</p></div>
+                    <div class="card"><h3 class="h3 mb-2">只剩模糊記憶</h3><p class="lead text-sm">過一段時間後，可能只記得：「好像以前看過一篇相關的內容。」</p></div>
+                </div>
+                <div class="lead space-y-3">
+                    <p>因此，我最初想解決的問題不是：</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">怎麼收藏更多？</p>
+                    <p>而是：</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">怎麼讓以前收藏過的東西，在真正需要時重新出現？</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Flow -->
+        <section class="sec">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">PRODUCT FLOW</p><h2 class="h2">從收藏到重新使用</h2></div>
+                <div class="flow">
+                    <span>Capture</span><i class="fa-solid fa-arrow-right"></i><span>Understand</span><i class="fa-solid fa-arrow-right"></i><span>Store</span><i class="fa-solid fa-arrow-right"></i><span>Search</span><i class="fa-solid fa-arrow-right"></i><span>Recall</span><i class="fa-solid fa-arrow-right"></i><span>Ask</span>
+                </div>
+                <ol class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <li class="card"><h3 class="h3 mb-1">Capture</h3><p class="lead text-sm">先把值得留下的內容存進來。</p></li>
+                    <li class="card"><h3 class="h3 mb-1">Understand</h3><p class="lead text-sm">讓 AI 協助理解、分類與整理。</p></li>
+                    <li class="card"><h3 class="h3 mb-1">Store</h3><p class="lead text-sm">保存結構化資料，同時保留原始來源。</p></li>
+                    <li class="card"><h3 class="h3 mb-1">Search</h3><p class="lead text-sm">知道關鍵字時快速找到。</p></li>
+                    <li class="card"><h3 class="h3 mb-1">Recall</h3><p class="lead text-sm">只剩模糊印象時重新召回收藏。</p></li>
+                    <li class="card"><h3 class="h3 mb-1">Ask</h3><p class="lead text-sm">直接根據自己的收藏整理答案。</p></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- My Role -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">MY ROLE</p><h2 class="h2">我負責什麼</h2></div>
+                <div class="lead space-y-2">
+                    <p>這個專案不是單純的 Coding Exercise。</p>
+                    <p>我以產品負責人的方式，從問題一路推進到實際 staging 驗收。</p>
+                </div>
+                <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                    <li>定義使用問題與產品定位</li><li>拆解 MVP Scope</li><li>排定功能優先順序</li><li>定義產品資料流</li>
+                    <li>設計 AI 與 deterministic logic 責任邊界</li><li>與 AI coding agent 協作實作</li><li>Git branch / Pull Request / Review</li><li>Regression testing</li>
+                    <li>Staging deployment</li><li>Live browser acceptance</li><li>Demo evidence</li><li>Portfolio packaging</li>
+                </ul>
+                <div class="hl">
+                    我的目標不是證明「每一行程式碼都由我手寫」。<br/>
+                    而是證明：我能把一個模糊需求拆成可交付的產品範圍，與 AI 工具協作完成，並且知道怎麼驗證它真的能用。
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Experiences -->
+        <section class="sec">
+            <div class="wrap space-y-14">
+                <div class="space-y-3"><p class="eyebrow">KEY EXPERIENCES</p><h2 class="h2">關鍵體驗</h2></div>
+
+                <div class="space-y-4">
+                    <p class="eyebrow">Quick Save</p>
+                    <h3 class="text-xl font-bold">先收藏，再整理</h3>
+                    <p class="hl">Save first. Organize later.</p>
+                    <div class="flow"><span>URL</span><i class="fa-solid fa-arrow-right"></i><span>取得公開內容</span><i class="fa-solid fa-arrow-right"></i><span>判斷來源</span><i class="fa-solid fa-arrow-right"></i><span>AI 分析</span><i class="fa-solid fa-arrow-right"></i><span>結構化</span><i class="fa-solid fa-arrow-right"></i><span>收藏</span></div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="eyebrow">AI Understand</p>
+                    <h3 class="text-xl font-bold">AI 的角色是整理，而不是取代來源</h3>
+                    <div class="lead space-y-2">
+                        <p>系統會依內容類型整理：</p>
+                        <p>Title ／ Summary / Description ／ Key Points ／ Keywords ／ Steps / Ingredients 等特定結構</p>
+                        <p>同時保留原始 URL。</p>
+                    </div>
+                    <p class="hl">AI 可以協助理解，但原始來源永遠要找得回來。</p>
+                </div>
+
+                <div class="space-y-4 rounded-3xl border-2 border-sage-400/70 dark:border-sage-600 bg-white dark:bg-slate-900 p-6 sm:p-10">
+                    <p class="eyebrow">Contextual Recall · 最重要的功能</p>
+                    <h3 class="text-2xl font-black">如果我連關鍵字都忘了呢？</h3>
+                    <p class="text-lg font-semibold text-slate-700 dark:text-slate-200">「我以前好像存過一篇在講提升專注力的文章。」</p>
+                    <div class="flow"><span>模糊記憶</span><i class="fa-solid fa-arrow-right"></i><span>找回真實收藏</span></div>
+                    <div class="lead space-y-3">
+                        <p>Recall 的目標不是直接回答問題。</p>
+                        <p>而是理解使用者描述，再從真正保存過的資料中，找出最相關的收藏。</p>
+                        <p>回傳的每一筆結果，都仍然指向資料庫中存在的原始收藏。</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="eyebrow">Ask My Collection</p>
+                    <h3 class="text-xl font-bold">找到之後，也可以直接問自己的收藏</h3>
+                    <p class="font-semibold text-slate-700 dark:text-slate-200">「我的收藏裡，關於番茄工作法是怎麼說的？」</p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="card"><h4 class="h3 mb-1">Search</h4><p class="lead text-sm">我記得關鍵字</p></div>
+                        <div class="card"><h4 class="h3 mb-1">Recall</h4><p class="lead text-sm">我只剩模糊記憶</p></div>
+                        <div class="card"><h4 class="h3 mb-1">Ask</h4><p class="lead text-sm">我想直接根據收藏得到整理後答案</p></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="eyebrow">Places</p>
+                    <h3 class="text-xl font-bold">收藏的不只有知識，也有地點</h3>
+                    <div class="flow"><span>Place</span><i class="fa-solid fa-arrow-right"></i><span>Conditions</span><i class="fa-solid fa-arrow-right"></i><span>Nearby</span><i class="fa-solid fa-arrow-right"></i><span>Map</span></div>
+                    <p class="lead">以前存過的東西，現在能不能重新出現在正確的情境裡？</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI vs Deterministic -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">AI VS DETERMINISTIC</p><h2 class="h2">AI 不是所有問題的答案</h2><p class="lead">能用規則穩定處理的，就不交給 AI</p></div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card"><p class="eyebrow mb-3">AI</p><ul class="space-y-2 font-semibold"><li>Classification</li><li>Summarization</li><li>Semantic Interpretation</li><li>Query Understanding</li><li>Answer Synthesis</li></ul></div>
+                    <div class="card"><p class="eyebrow mb-3 !text-slate-500">Deterministic</p><ul class="space-y-2 font-semibold"><li>Owner Scope</li><li>Retrieval</li><li>Ranking</li><li>Validation</li><li>URL Safety</li><li>Storage</li><li>Fallback</li><li>Data Boundary</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture -->
+        <section class="sec">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">ARCHITECTURE</p><h2 class="h2">簡單、乾淨的系統架構</h2></div>
+                <div class="grid md:grid-cols-3 gap-6 items-stretch">
+                    <div class="md:col-span-2 card flex flex-col items-center gap-2 text-center">
+                        <span class="chip">LINE / Web / Import</span>
+                        <i class="fa-solid fa-arrow-down text-sage-500"></i>
+                        <span class="chip">Next.js</span>
+                        <i class="fa-solid fa-arrow-down text-sage-500"></i>
+                        <span class="chip">FastAPI</span>
+                        <i class="fa-solid fa-arrow-down text-sage-500"></i>
+                        <span class="chip">Supabase PostgreSQL</span>
+                    </div>
+                    <div class="card space-y-4 text-sm">
+                        <div><p class="eyebrow">AI</p><p class="font-semibold">Azure OpenAI</p></div>
+                        <div><p class="eyebrow">Map</p><p class="font-semibold">Leaflet + OpenStreetMap</p></div>
+                        <div><p class="eyebrow">Routes / Nearby</p><p class="font-semibold">Google Routes API</p></div>
+                        <div><p class="eyebrow">Deployment</p><p class="font-semibold">Render</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Decisions -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap space-y-12">
+                <div class="space-y-3"><p class="eyebrow">PRODUCT DECISIONS</p><h2 class="h2">做了哪些取捨</h2></div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">為什麼沒有一開始就做圖片 CDN？</h3>
+                    <p class="hl">Public Preview Image + Safety Validation + Graceful Fallback</p>
+                    <div class="lead space-y-2">
+                        <p>Portfolio MVP 不需要先承擔：</p>
+                        <p>Object Storage ／ CDN ／ Cache ／ Cleanup ／ Copyright ／ Image lifecycle</p>
+                        <p>先做能提升產品體驗的最小版本，不因 UI enhancement 擴大整個基礎架構。</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">為什麼不把所有收藏全部丟給 LLM？</h3>
+                    <ul class="grid sm:grid-cols-2 gap-2 text-sm">
+                        <li class="chip rounded-lg">Token cost</li><li class="chip rounded-lg">Latency</li><li class="chip rounded-lg">Data exposure</li><li class="chip rounded-lg">結果難以解釋</li><li class="chip rounded-lg sm:col-span-2">模型可能產生不存在來源</li>
+                    </ul>
+                    <div class="flow"><span>有限語意理解</span><i class="fa-solid fa-arrow-right"></i><span>Retrieval</span><i class="fa-solid fa-arrow-right"></i><span>Ranking</span><i class="fa-solid fa-arrow-right"></i><span>真實收藏結果</span></div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">有些功能，暫停比硬做更重要</h3>
+                    <div class="lead space-y-2">
+                        <p>原本希望加入 YouTube Transcript enrichment。</p>
+                        <p>實際驗證後，遇到平台 PO-token 與存取限制。</p>
+                        <p>因此功能標記：<strong>PAUSED / BLOCKED</strong>。核心收藏流程仍繼續交付。</p>
+                    </div>
+                    <p class="hl">產品管理不是把所有想到的功能做完，而是知道什麼時候應該停。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Validation -->
+        <section class="sec">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">VALIDATION</p><h2 class="h2">不是做到畫面出來就算完成</h2></div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="card"><p class="eyebrow mb-2">Python</p><p class="text-2xl font-black">564 tests</p></div>
+                    <div class="card"><p class="eyebrow mb-2">Web</p><p class="text-2xl font-black">242 tests</p></div>
+                    <div class="card"><p class="eyebrow mb-2">CI</p><p class="font-bold">GitHub Actions PASS</p></div>
+                    <div class="card"><p class="eyebrow mb-2">Staging</p><p class="font-bold">Backend LIVE<br/>Web LIVE</p></div>
+                </div>
+                <div class="card">
+                    <p class="eyebrow mb-3">Live acceptance</p>
+                    <div class="flex flex-wrap gap-2"><span class="chip">Quick Save</span><span class="chip">Thumbnail</span><span class="chip">Missing-image fallback</span><span class="chip">Search</span><span class="chip">Recall</span><span class="chip">Ask</span><span class="chip">Places</span><span class="chip">Map</span></div>
+                </div>
+                <p class="hl">無法 live 自然重現的情境，不硬製造 PASS。<br/>而是明確標示：NOT OBSERVABLE LIVE</p>
+            </div>
+        </section>
+
+        <!-- Learned -->
+        <section class="sec bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+            <div class="wrap space-y-8">
+                <div class="space-y-3"><p class="eyebrow">WHAT I LEARNED</p><h2 class="h2">我真正學到的事</h2></div>
+                <div class="lead space-y-3 max-w-2xl">
+                    <p>一開始，我以為最大的挑戰會是：</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">「AI 功能怎麼做出來？」</p>
+                    <p>做完整個產品後，我發現真正困難的是：</p>
+                    <p class="font-bold text-slate-800 dark:text-slate-100">怎麼讓一個 AI 功能變成可信、可控、可使用的產品流程。</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="card"><h3 class="h3 mb-1">權限與個資</h3><p class="lead text-sm">誰可以看到什麼資料？</p></div>
+                    <div class="card"><h3 class="h3 mb-1">人工確認</h3><p class="lead text-sm">哪些結果一定需要人確認？</p></div>
+                    <div class="card"><h3 class="h3 mb-1">既有系統整合</h3><p class="lead text-sm">如何接回 ERP、報表、LINE 或內部流程？</p></div>
+                    <div class="card"><h3 class="h3 mb-1">User Adoption</h3><p class="lead text-sm">工具真的替使用者省事了嗎？</p></div>
+                </div>
+                <p class="font-bold text-sage-700 dark:text-sage-300">這些問題，比單純選擇哪一個模型更重要。</p>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="sec">
+            <div class="wrap">
+                <div class="rounded-3xl bg-sage-800 dark:bg-slate-800 p-8 sm:p-12 text-white text-center space-y-6">
+                    <h2 class="text-2xl sm:text-3xl font-black">AI 的價值，不只是產生更多內容</h2>
+                    <div class="text-sage-100 leading-relaxed space-y-2">
+                        <p>而是幫助我們重新使用那些：<br/>已經看過、已經判斷過、曾經覺得重要的資訊。</p>
+                        <p>這就是我做「我的數位腦」的原因。</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="#demo" class="inline-flex items-center justify-center gap-2 bg-white text-sage-800 font-bold px-6 py-3 rounded-xl hover:bg-sage-50 transition"><i class="fa-solid fa-play text-xs"></i> 查看 Demo</a>
+                        <a href="https://github.com/witch6996-commits/my-digital-brain" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 border border-white/40 text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition"><i class="fa-brands fa-github"></i> GitHub Repository</a>
+                        <a href="../../" class="inline-flex items-center justify-center gap-2 border border-white/40 text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition"><i class="fa-solid fa-arrow-left text-xs"></i> 回到 Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-xs text-slate-400 py-8">© Mia Wang｜AI Project Manager</footer>
+
+    <script>
+        // If the demo file is not deployed yet, show a notice instead of a broken player.
+        (function () {
+            var v = document.getElementById('demoVideo');
+            var s = v.querySelector('source');
+            s.addEventListener('error', function () {
+                document.getElementById('demoBox').classList.add('hidden');
+                document.getElementById('demoMissing').classList.remove('hidden');
+            });
+        })();
+    </script>
+</body>
+</html>
