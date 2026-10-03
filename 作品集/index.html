@@ -69,10 +69,7 @@
               tags: ['HTML', 'JavaScript', '地圖'] },
             { icon: 'fa-language', title: '每日一句學英語', file: '每日英文.html',
               desc: '每日句型、情境應用、語音朗讀與練習測驗，並以圖表追蹤學習狀況。',
-              tags: ['Chart.js', 'Web Speech'] },
-            { icon: 'fa-face-smile', title: '客製化 3D 貼圖成果', file: '貼圖大師.html',
-              desc: '客製化貼圖成果的展示頁，練習版面與視覺設計。',
-              tags: ['HTML', 'Tailwind CSS'] }
+              tags: ['Chart.js', 'Web Speech'] }
         ];
         document.getElementById('grid').innerHTML = works.map(w => `
             <a href="${encodeURI(w.file)}" class="group flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
