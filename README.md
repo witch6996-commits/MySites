@@ -10,7 +10,9 @@
 
 網站透過 GitHub 連接 Netlify 自動部署：
 
-- https://wangsites.netlify.app/
+- Netlify：https://wangsites.netlify.app/
+- GitHub Pages：https://witch6996-commits.github.io/MySites/
+- 作品集頁：`/作品集/`
 
 GitHub `main` 分支更新後，Netlify 會自動重新部署最新版本。
 
@@ -28,6 +30,10 @@ GitHub `main` 分支更新後，Netlify 會自動重新部署最新版本。
 
 現金流量資料分析與 Dashboard 介面練習，使用 SheetJS、Apache ECharts、Tailwind CSS 等工具呈現財務資訊與比較結果。
 
+### 台灣旅遊景點互動地圖
+
+以互動地圖瀏覽台灣旅遊景點的前端練習。
+
 ### 每日一句學英語
 
 互動式英語學習頁面練習，包含每日句型、情境應用、語音功能、練習測驗與 Chart.js 學習分析圖表。
@@ -41,7 +47,7 @@ GitHub `main` 分支更新後，Netlify 會自動重新部署最新版本。
 ```text
 MySites/
 ├── index.html        # 個人／作品入口首頁
-├── 作品集/           # 課程練習作品
+├── 作品集/           # 課程練習作品（index.html 為作品集首頁）
 ├── PIC/              # 網頁圖片素材
 ├── Music/            # 網頁音訊素材
 └── README.md

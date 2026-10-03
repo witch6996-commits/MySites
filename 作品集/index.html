@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集 | Mia Wang</title>
+    <meta name="description" content="職訓與個人專題練習作品：資料視覺化、個資假名化、財務分析、互動地圖與學習工具。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: { extend: {
+                colors: { sage: { 50:'#f4f7f6', 100:'#e3ebe8', 200:'#c7d7d2', 400:'#81a399', 500:'#678d82', 600:'#4e7167', 700:'#405c54', 900:'#2f403c' } },
+                fontFamily: { sans: ['Inter','Noto Sans TC','sans-serif'] }
+            } }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased">
+
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="../" class="flex items-center gap-2 text-sm font-bold text-sage-600 dark:text-sage-400 hover:text-sage-700">
+                <i class="fa-solid fa-arrow-left text-xs"></i> 回到首頁
+            </a>
+            <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">Mia Wang</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div class="max-w-2xl mb-12">
+            <p class="text-xs font-black tracking-widest text-sage-600 dark:text-sage-400 uppercase mb-3">Portfolio</p>
+            <h1 class="text-3xl sm:text-4xl font-black leading-tight mb-4">作品集</h1>
+            <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                職訓與個人專題期間完成的練習作品。每一件都能直接在瀏覽器開啟操作，資料處理皆在本機瀏覽器內完成，示範資料均為虛構的假資料。
+            </p>
+        </div>
+
+        <div id="grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+        <section class="mt-16 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8">
+            <h2 class="text-lg font-bold mb-2">其他連結</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mb-4">想了解更多背景與經歷，也可以看看我的其他頁面。</p>
+            <div class="flex flex-wrap gap-3 text-sm font-semibold">
+                <a href="../" class="px-4 py-2 rounded-xl bg-sage-600 text-white hover:bg-sage-700 transition"><i class="fa-solid fa-user mr-2"></i>個人首頁</a>
+                <a href="https://sites.google.com/view/wang-yu-wen/%E9%A6%96%E9%A0%81" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition"><i class="fa-brands fa-google mr-2"></i>Google Sites</a>
+                <a href="https://github.com/witch6996-commits/MySites" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition"><i class="fa-brands fa-github mr-2"></i>GitHub 原始碼</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-xs text-slate-400 py-8">本頁作品為學習與練習用途，資料皆為虛構示範。</footer>
+
+    <script>
+        const works = [
+            { icon: 'fa-user-shield', title: '個資假名化工具', file: '個資假名化工具.html',
+              desc: '在瀏覽器本機將 Excel / CSV 內的個資假名化，並產生對照表供授權還原，資料不上傳伺服器。',
+              tags: ['SheetJS', 'CryptoJS', 'Tailwind CSS'], note: '範例資料為虛構假資料' },
+            { icon: 'fa-chart-line', title: '商業進銷存與收支財務分析', file: '商業進銷存與收支財務分析系統.html',
+              desc: '讀取進銷存與收支資料，以互動圖表呈現營運與財務狀況。',
+              tags: ['SheetJS', 'ECharts'] },
+            { icon: 'fa-money-bill-trend-up', title: '智能財務現金流量分析儀', file: '智能財務現金流量分析儀.html',
+              desc: '現金流量 Dashboard，可比較不同期間與項目的資金變化。',
+              tags: ['SheetJS', 'ECharts', 'Tailwind CSS'] },
+            { icon: 'fa-map-location-dot', title: '台灣旅遊景點互動地圖', file: '台灣旅遊景點互動地圖.html',
+              desc: '以互動地圖瀏覽台灣各地旅遊景點。',
+              tags: ['HTML', 'JavaScript', '地圖'] },
+            { icon: 'fa-language', title: '每日一句學英語', file: '每日英文.html',
+              desc: '每日句型、情境應用、語音朗讀與練習測驗，並以圖表追蹤學習狀況。',
+              tags: ['Chart.js', 'Web Speech'] },
+            { icon: 'fa-face-smile', title: '客製化 3D 貼圖成果', file: '貼圖大師.html',
+              desc: '客製化貼圖成果的展示頁，練習版面與視覺設計。',
+              tags: ['HTML', 'Tailwind CSS'] }
+        ];
+        document.getElementById('grid').innerHTML = works.map(w => `
+            <a href="${encodeURI(w.file)}" class="group flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
+                <div class="w-11 h-11 rounded-xl bg-sage-100 dark:bg-sage-900 text-sage-600 dark:text-sage-200 flex items-center justify-center mb-4">
+                    <i class="fa-solid ${w.icon}"></i>
+                </div>
+                <h2 class="text-lg font-bold mb-2">${w.title}</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed flex-1">${w.desc}</p>
+                ${w.note ? `<p class="text-xs text-amber-600 dark:text-amber-400 mt-3"><i class="fa-solid fa-circle-info mr-1"></i>${w.note}</p>` : ''}
+                <div class="flex flex-wrap gap-2 mt-4">
+                    ${w.tags.map(t => `<span class="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${t}</span>`).join('')}
+                </div>
+                <span class="mt-5 text-sm font-bold text-sage-600 dark:text-sage-400 group-hover:translate-x-1 transition">開啟作品 <i class="fa-solid fa-arrow-right text-xs"></i></span>
+            </a>`).join('');
+    </script>
+</body>
+</html>
