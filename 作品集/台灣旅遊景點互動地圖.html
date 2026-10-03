@@ -624,12 +624,23 @@
                 zoomControl: false
             }).setView([23.7, 120.95], 7.5);
 
-            // High Quality OpenStreetMap CartoDB tiles
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            // Primary: CartoDB Voyager tiles. If they fail to load (blocked by an
+            // extension / network), fall back to standard OpenStreetMap tiles.
+            const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 subdomains: 'abcd',
                 maxZoom: 19
             }).addTo(map);
+
+            let tileErrors = 0;
+            cartoLayer.on('tileerror', () => {
+                if (++tileErrors !== 3) return;
+                map.removeLayer(cartoLayer);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    maxZoom: 19
+                }).addTo(map);
+            });
 
             // Re-add Zoom Control at bottom right
             L.control.zoom({ position: 'bottomright' }).addTo(map);
